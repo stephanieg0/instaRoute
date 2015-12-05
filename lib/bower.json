@@ -1,0 +1,22 @@
+{
+  "name": "lib",
+  "version": "0.0.0",
+  "authors": [
+    "stephanie miranda <stephanie.miranda.valdez@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "jquery": "~2.1.4",
+    "requirejs": "~2.1.22",
+    "firebase": "~2.3.2",
+    "angularfire": "~1.1.3"
+  }
+}
