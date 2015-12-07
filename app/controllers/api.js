@@ -27,9 +27,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 	}
 
-	$scope.Places = function (fromInput) {
+	$scope.Places = function () {
 		//get the html element input
-		var input = fromInput;
+		var input = document.getElementById('from');
 		console.log("input", input);
 		// var autocomplete = new google.maps.places.Autocomplete(document.getElementById('from').value);
 		console.log("Places function ran");
@@ -45,10 +45,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 	
 		//placing input on top left of map.
-		// map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+		//$window.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
 		//create autocomplete object.
-		var autocomplete = new google.maps.places.Autocomplete(input, options);
+		var autocomplete = new $window.google.maps.places.Autocomplete(input, options);
+		console.log("autocomplete", autocomplete);
 
 			
 	};

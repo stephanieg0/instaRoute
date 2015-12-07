@@ -1,9 +1,9 @@
 <div>
 	<p>this is home</p>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUWcwmKcS5LkAvrIX0jFqSnHF4k7iOVno&libraries=places"></script>
-	from<input type="text" id="from" ng-model="fromInput">
+	
+	from<input type="text" id="from">
 	to<input type="text" id="to">
-	<button type="button" ng-click="Places(fromInput)">Calculate</button>
+	<button type="button" ng-keypress="Places()">Calculate</button>
 	<div id="calculation"></div>
 
 </div>
