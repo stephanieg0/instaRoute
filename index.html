@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap/dist/css/bootstrap.min.css">	
+
+		<link rel="stylesheet" type="text/css" href="styles/style.css">
+        
+	</head>
+	<body>
+		<section ng-controller="apiController">
+			<h1>commute alert</h1>
+		
+			<div ng-view>
+
+			</div>
+
+			<div id="map-container">
+				<div id="map" ng-model="maps"></div>
+				
+			</div>
+
+		</section>
+
+		<script src="lib/bower_components/angular/angular.min.js"></script>
+		<script src="lib/bower_components/angular-route/angular-route.min.js"></script>
+		<script src="lib/bower_components/firebase/firebase.js"></script>
+		<script src="lib/bower_components/angularfire/dist/angularfire.min.js"></script>
+
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUWcwmKcS5LkAvrIX0jFqSnHF4k7iOVno&callback=initMap"></script>   
+
+
+		<script src="app/app.js"></script>
+		<script src="app/controllers/api.js"></script>
+
+        <!--<script src="lib/bower_components/angular-google-maps/dist/angular-google-maps.js"></script>-->
+		
+	</body>
+
+</html>
