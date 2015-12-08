@@ -5,47 +5,74 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 	var from;
 	var to;
+	var map = null;
+	var mapOptions = {}
+	var geocoder;
+	//setting global latitude and longitud. Deafult to Nashville.
+	var myLatLng = {lat: 36.166361, lng: -86.781167};
 
-	var map;
-	//initializing the map
+	//initializing the map. Deafult to Nashville
 	$window.initMap = function () {
-		var mapPotions =  {
-	    center: {lat: 36.1667, lng: 86.7833},
-	    zoom: 8,
-	    disableDefaultUI: true
+		//to move marker posisiton.
+		// geocoder = new google.maps.Geocoder();
+		//deafult for map
+		mapOptions =  {
+	    center: myLatLng,
+	    zoom: 8
 	  }
-	  map = new google.maps.Map(document.getElementById('map'), mapPotions);
+	 	//creates a map inside the map div
+		map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
 	};
 
-	$scope.Calculate = function () {
-		console.log("click works");
-		from = document.getElementById('from').value;
-		// to = document.getElementById('to').value;
-		// console.log("from", from);
-		
-		
 
-	}
-
-	$scope.Places = function () {
+	//setting autocomplete function for input field.
+	$scope.placesFrom = function () {
 		//get the html element input
 		var input = document.getElementById('from');
 		console.log("input", input);
-		// var autocomplete = new google.maps.places.Autocomplete(document.getElementById('from').value);
-		console.log("Places function ran");
+		//getting the actual address.
+		var address = document.getElementById('from').value;
+		console.log("address", address);
+		mapOptions = new google.maps.Marker({
+			center: myLatLng,
+			zoom: 8,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		});
+
+		// geocoder( { 'address': address}, function(results, status) {
+	 //      if (status == google.maps.GeocoderStatus.OK) {
+	 //        map.setCenter(results[0].geometry.location);
+	 //        mapOptions = new google.maps.Marker({
+	 //            map: map,
+	 //            position: results[0].geometry.location
+	 //        });
+	 //      } else {
+	 //        alert("Geocode was not successful for the following reason: " + status);
+	 //      }
+	 //    });
+		//create autocomplete object.
+		var autocomplete = new $window.google.maps.places.Autocomplete(input, mapOptions);
+		console.log("autocomplete", autocomplete);
+
+			
+	};//end of placesFrom function
+
+		$scope.placesTo = function () {
+		//get the html element input
+		var input = document.getElementById('to');
+		
 		//bounds for the autocomplete search results.
 		var deafultBounds = new google.maps.LatLngBounds(
-			new google.maps.LatLng(-90, 91),
-			new google.maps.LatLng(-180, 80));
+			//rectangle in map for south, west and north
+			new google.maps.LatLng(36.166361, -86.781167));
+			// new google.maps.LatLng(-180, 80));
 
-		var options = {
+		mapOptions = {
 			bounds: deafultBounds,
-			types: ['establishment']
+			zoom: 8
 		};
 
-	
-		//placing input on top left of map.
-		//$window.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
 		//create autocomplete object.
 		var autocomplete = new $window.google.maps.places.Autocomplete(input, options);

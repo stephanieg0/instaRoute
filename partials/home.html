@@ -1,9 +1,12 @@
 <div>
 	<p>this is home</p>
-	
-	from<input type="text" id="from" ng-keypress="Places()">
-	to<input type="text" id="to">
-	<button type="button" >Calculate</button>
+	<div>
+		<input type="text" id="from" class="controls" placeholder="From" ng-keypress="placesFrom()">
+	</div>
+	<div>
+		<input type="text" id="to" placeholder="To" ng-keypress="placesTo()">
+	</div>
+	<!-- <button type="button" id="calculate-button">Calculate</button> -->
 	<div id="calculation"></div>
 
 </div>
