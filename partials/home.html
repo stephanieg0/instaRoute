@@ -1,10 +1,10 @@
 <div>
 	<p>this is home</p>
 	<div>
-		<input type="text" id="from" class="controls" placeholder="From" ng-keypress="placesFrom()">
+		<input type="text" id="from" class="controls" placeholder="From" ng-keypress="placesFrom($event)">
 	</div>
 	<div>
-		<input type="text" id="to" placeholder="To" ng-keypress="placesTo()">
+		<input type="text" id="to" placeholder="To" ng-keypress="placesTo($event)">
 	</div>
 	<!-- <button type="button" id="calculate-button">Calculate</button> -->
 	<div id="calculation"></div>

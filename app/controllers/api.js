@@ -3,13 +3,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 	console.log("controller is linked");
 
-	var from;
-	var to;
-	var map;
+	var from = "";
+	var to = "";
+	var map = "";
 	var mapOptions = {}
-	var geocoder;
-	var address;
-	var marker; 
+	var geocoder = "";
+	var address = "";
+	var marker = ""; 
 	//setting global latitude and longitud. Deafult to Nashville.
 	var myLatLng = {lat: 36.166361, lng: -86.781167};
 
@@ -29,77 +29,79 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		    title: 'Hello World!'
 		  });
 
-
-	};
-
-	//changin the marker position
-	$scope.geocodeAddress = function (geocoder, map) {
-		console.log("resultsMap", map);
+		//geocoder instance for making address into coordinates.
+		geocoder = new google.maps.Geocoder();
 		
-		// geocoder = new $window.google.maps.Geocoder();
-
-		geocoder.geocode( { 'address': address}, function(results, status) {
-	      if (status == google.maps.GeocoderStatus.OK) {
-	        map.setCenter(results[0].geometry.location);
-	        mapOptions = {
-	            map: map,
-	            position: results[0].geometry.location,
-	            zoom: 8,
-	            mapTypeId: google.maps.MapTypeId.ROADMAP
-	        }
-	      } else {
-	        alert("Geocode was not successful for the following reason: " + status);
-	      }
-	    });
 	};
-
 
 	//setting autocomplete function for input field.
-	$scope.placesFrom = function () {
+	$scope.placesFrom = function (keyEvent) {	
 		//get the html element input for the autocomplete
 		var input = document.getElementById('from');
-		console.log("input", input);
-		//getting the input string as address.
-		address = document.getElementById('from').value;
-		console.log("address", address);
-
+		// console.log("input", input);
+		//deafult bounds to deafult to places in Nashville first.
 		mapOptions = {
 			position: myLatLng,
     		map: map,
 		}
 		//create autocomplete object.
 		var autocomplete = new $window.google.maps.places.Autocomplete(input, marker);
-		console.log("autocomplete", autocomplete);
 
-	};//end of placesFrom function
+		//Get complete address on enter key.
+		if (keyEvent.which === 13) {
+			//getting the input string as address.
+			address = document.getElementById('from').value;
+			console.log("address", address);
+			//passing map object and geocoder instance to function.
+			$scope.geocodeAddress(geocoder, map);
+		}//end if.
 
-	
+	};//end of placesFrom function.
 
-
-
-
-		$scope.placesTo = function () {
+	//setting autocomplete function for input field.
+	$scope.placesTo = function (keyEvent) {
 		//get the html element input
 		var input = document.getElementById('to');
-		
-		//bounds for the autocomplete search results.
-		var deafultBounds = new google.maps.LatLngBounds(
-			//rectangle in map for south, west and north
-			new google.maps.LatLng(36.166361, -86.781167));
-			// new google.maps.LatLng(-180, 80));
-
+		console.log("input", input);
+		//deafult bounds to deafult to places in Nashville first.
 		mapOptions = {
-			bounds: deafultBounds,
-			zoom: 8
-		};
-
-
+			position: myLatLng,
+    		map: map,
+		}
 		//create autocomplete object.
-		var autocomplete = new $window.google.maps.places.Autocomplete(input, options);
-		console.log("autocomplete", autocomplete);
+		var autocomplete = new $window.google.maps.places.Autocomplete(input, marker);
 
-			
+		//Get complete address on enter key.
+		if (keyEvent.which === 13) {
+			//getting the input string as address.
+			address = document.getElementById('to').value;
+			console.log("address", address);
+			//passing map object and geocoder instance to function.
+			$scope.geocodeAddress(geocoder, map);
+		}//end if.
+
+	};//end of placesTo function.
+
+	//changin the marker position
+	$scope.geocodeAddress = function (geocoder, map) {
+		console.log("geocoderAdress:", address);
+		//pushing address key into the geocode from google to get coordinates and change the map.		
+		geocoder.geocode( { 'address': address}, function(results, status) {
+	      if (status == google.maps.GeocoderStatus.OK) {
+	        map.setCenter(results[0].geometry.location);
+	        var marker = new google.maps.Marker ({
+	            map: map,
+	            position: results[0].geometry.location,
+	            zoom: 8,
+	            mapTypeId: google.maps.MapTypeId.ROADMAP
+	        });
+	      } else {
+	        alert("Geocode was not successful for the following reason: " + status);
+	      }
+
+	    });
 	};
+
 
 		
 
