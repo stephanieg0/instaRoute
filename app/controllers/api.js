@@ -1,9 +1,6 @@
-app.controller("apiController", ["$scope", "$window", "$firebaseArray", 
-	function ($scope, $window, $firebaseArray) { 
-
-	//variables from input text in html.	
-	var from = "";
-	var to = "";
+app.controller("apiController", ["$scope", "$window", 
+	function ($scope, $window) { 
+	
 	//variables for google instances and objects.
 	$scope.map = "";
 	var mapOptions = {}
@@ -22,8 +19,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
   	//my destination in address form and coordinates.
   	var destinationA = 'Stockholm, Sweden';
   	var destinationB = {lat: 50.087, lng: 14.421};
-
-  	$scope.calculationRoute = "";
+  	//output for dom.
+  	$scope.outputDiv = "";
 
 	//initializing the map when app loads(part of the script tag in html). 
 	//Deafult to Nashville
@@ -31,7 +28,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		//deafult for map
 		mapOptions =  {
 	    center: myLatLng,
-	    zoom: 8
+	    zoom: 10
 	  }
 	 	//creates a map inside the map div
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -68,7 +65,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 			//passing map object and geocoder instance to function.
 			$scope.geocodeAddress(geocoder, map);
-		
+			
 		}//end if.
 	};//end of placesFrom function.
 
@@ -104,7 +101,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 	        	$scope.markersArray.push(new google.maps.Marker({
 	            map: map,
 	            position: results[0].geometry.location,
-	            zoom: 8,
+	            zoom: 10,
 	            mapTypeId: google.maps.MapTypeId.ROADMAP
 	        }));
 	        //setting new position from geocoder for distance matrix variables.
@@ -135,29 +132,44 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		    if (status !== google.maps.DistanceMatrixStatus.OK) {
 		      alert('Error was: ' + status);
 		    } else {
-		      var originList = response.originAddresses;
-		      var destinationList = response.destinationAddresses;
-		      console.log("originList", originList);
-		      console.log("destinationList", destinationList);
-		      //Defining variables to outPut to dom.
-		      // var outputDiv = document.getElementById('output');
-		      // outputDiv.innerHTML = '';
-		      // deleteMarkers(markersArray);
+		      	var originList = response.originAddresses;
+		      	var destinationList = response.destinationAddresses;
+		      	// console.log("originList", originList);
+		      	// console.log("destinationList", destinationList);
+		      	//Defining variables to outPut to dom.
+		      	// var outputDiv = document.getElementById('output');
+		      	// outputDiv.innerHTML = '';
+		      	// deleteMarkers(markersArray);
 		    	}//end of else
 			
 			//Getting the time and distance based on geocode!
 			for (var i = 0; i < originList.length; i++) {
+				//ORIGIN DATA
+				//getting distane and duration
         		var results = response.rows[i].elements;
-        		geocoder.geocode({'address': originList[i]});
+        		geocoder.geocode({'address': originList[i]}, function(results, status) {
+        			//geocoder.geocode needs to pass two arguments otherwise, it will error.
+        		});
+        		console.log("originList", originList);
+        		
+        		//DESTINATION DATA
         		for (var j = 0; j < results.length; j++) {
-          			geocoder.geocode({'address': destinationList[j]});
-          			//Output to the dom
-          	 		//var outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
-           	    	//': ' + results[j].distance.text + ' in ' +
-            	   	//results[j].duration.text + '<br>';
-           			console.log("results[j].duration.text", results[j].duration.text);          			
+          			geocoder.geocode({'address': destinationList[j]}, function(results, status) {
+          				//geocoder.geocode needs to pass two arguments otherwise, it will error.
+          			});
+          			console.log("destinationList", destinationList);
+
+          			//Output
+          	 		// $scope.outputDiv += originList[i] + ' to ' + destinationList[j] +
+           	  //   	': ' + results[j].distance.text + ' in ' +
+            	 //   	results[j].duration.text + '<br>';
+            	 	$scope.outputDiv = results[j].duration.text;
+           			console.log("outputDiv", $scope.outputDiv);
+           			console.log("results[j].duration", results[j].duration.text);
        				}
 				}
+				//the scope needs to be applied so the outputDiv can show up because of the nested forloops.
+       			$scope.$apply();
 			});
 		};//end of function
 

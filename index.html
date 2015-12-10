@@ -1,40 +1,41 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap/dist/css/bootstrap.min.css">	
+		<!--bootstrap link-->
+		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<!--bootstrap facebook link-->
+		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap-social/bootstrap-social.css">	
 
 		<link rel="stylesheet" type="text/css" href="styles/style.css">
-        
+        <title>Commute Alert</title>
 	</head>
-	<body>
+	<body ng-app="app">
 		<section ng-controller="apiController">
-			<h1>commute alert</h1>
-		
-			<div ng-view>
+			<div class="container-fluid">
+
+				<div ng-view></div>	
+
+				<div id="map-container"><!--for resizing the map-->
+					<div id="map" ng-model="maps"></div><!--for api.js-->			
+				</div>
 
 			</div>
-
-			<div id="map-container">
-				<div id="map" ng-model="maps"></div>
-				
-			</div>
-
 		</section>
-
+		<!--Dependencies-->
 		<script src="lib/bower_components/angular/angular.min.js"></script>
 		<script src="lib/bower_components/angular-route/angular-route.min.js"></script>
 		<script src="lib/bower_components/firebase/firebase.js"></script>
 		<script src="lib/bower_components/angularfire/dist/angularfire.min.js"></script>
 
-		
+		<!--key/library for google maps-->
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUWcwmKcS5LkAvrIX0jFqSnHF4k7iOVno&callback=initMap&libraries=places"></script> 
 	 
 
-
+		<!--Js files-->
 		<script src="app/app.js"></script>
 		<script src="app/controllers/api.js"></script>
-
-        <!--<script src="lib/bower_components/angular-google-maps/dist/angular-google-maps.js"></script>-->
-
+		<script src="app/controllers/login.js"></script>
+        
 		
 	</body>
 
