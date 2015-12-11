@@ -176,6 +176,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 		//Saving to firebase
 		$scope.SaveRoute = function() {
+			//get the html element input for the autocomplete
+			var inputRouteName = document.getElementById('route-name');
+			var routeName = inputRouteName.toLowerCase();
 			//firebase refrences to correct path
 			var ref = new Firebase("https://commutealert.firebaseio.com/routes");
 			var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
@@ -184,6 +187,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 			//pushing route info to firebase
 			routesRef.push({
+					"routeName": routeName,
 					"userId": userId,
 					"origin2": origin2,
 					"destinationA": destinationA

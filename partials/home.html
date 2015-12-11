@@ -1,20 +1,22 @@
 <div class="route-container col-sm-3">
 	<div class="address-inputs">
+		<input type="text" id="route-name" placeholder="Route Name">
 		<div>
-			<input type="text" id="from" class="controls" placeholder="From" ng-model="inputFrom" ng-keypress="placesFrom($event)">
+			<input type="text" id="from" class="controls" placeholder="Origin" ng-model="inputFrom" ng-keypress="placesFrom($event)">
 		</div>
 		<div>
-			<input type="text" id="to" placeholder="To" ng-keypress="placesTo($event)">
+			<input type="text" id="to" placeholder="Destination" ng-keypress="placesTo($event)">
 		</div>
 	</div>
-	<button id="save-route-button" ng-click="SaveRoute()">Save Route</button>
+	<button id="save-route-button" ng-click="SaveRoute()">Create Route</button>
 	<div>time: {{outputDiv}}</div>
 </div>
 
 <div class="individual-route-container col-sm-3" ng-repeat="route in routes | filter: {userId: userId}">
-	Route Title
 	<div ng-model="routes">
 		<div id="{{route.userId}}">
+			<button type-"button"><span class="glyphicon glyphicon-remove"></span></button>
+			<div>{{route.routeName}}</div>
 			<div class="output-origin">{{route.origin2}}</div>
 			<div class="output-destination">{{route.destinationA}}</div>
 		</div>
