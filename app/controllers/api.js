@@ -176,13 +176,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 		//Saving to firebase
 		$scope.SaveRoute = function() {
+			//firebase refrences to correct path
 			var ref = new Firebase("https://commutealert.firebaseio.com/routes");
-			$scope.routes = $firebaseArray(ref);
 			var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
 			// Getting user info
 			var userId = ref.getAuth().uid;
 
-			//pushing to pin to firebase
+			//pushing route info to firebase
 			routesRef.push({
 					"userId": userId,
 					"origin2": origin2,
@@ -192,6 +192,10 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 			console.log("in firebase", origin2, destinationA);
   			
 		};
+
+		//Loading from firebase
+		var ref = new Firebase("https://commutealert.firebaseio.com/routes");
+		$scope.routes = $firebaseArray(ref);
 			
 }]);//end of controller
 
