@@ -200,6 +200,12 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		//Loading from firebase
 		var ref = new Firebase("https://commutealert.firebaseio.com/routes");
 		$scope.routes = $firebaseArray(ref);
+
+
+		//Deleting from firebase
+		$scope.DeleteRoute = function() {
+			console.log("button works");
+		};
 			
 }]);//end of controller
 

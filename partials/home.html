@@ -15,7 +15,7 @@
 <div class="individual-route-container col-sm-3" ng-repeat="route in routes | filter: {userId: userId}">
 	<div ng-model="routes">
 		<div id="{{route.userId}}">
-			<button type-"button"><span class="glyphicon glyphicon-remove"></span></button>
+			<button type-"button" ng-click="DeleteRoute()"><span class="glyphicon glyphicon-remove"></span></button>
 			<div>{{route.routeName}}</div>
 			<div class="output-origin">{{route.origin2}}</div>
 			<div class="output-destination">{{route.destinationA}}</div>
