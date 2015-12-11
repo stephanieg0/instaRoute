@@ -1,11 +1,15 @@
-<p>this is home</p>
-<div>
-	<input type="text" id="from" class="controls" placeholder="From" ng-model="inputFrom" ng-keypress="placesFrom($event)">
+<div class="route-container">
+	<div class="address-inputs">
+		<div>
+			<input type="text" id="from" class="controls" placeholder="From" ng-model="inputFrom" ng-keypress="placesFrom($event)">
+		</div>
+		<div>
+			<input type="text" id="to" placeholder="To" ng-keypress="placesTo($event)">
+		</div>
+	</div>
+	<button id="save-route" ng-click="SaveRoute()">Save Route</button>
+	<div>time: {{outputDiv}}</div>
 </div>
-<div>
-	<input type="text" id="to" placeholder="To" ng-keypress="placesTo($event)">
-</div>
-<div>time: {{outputDiv}}</div>
 
 
 

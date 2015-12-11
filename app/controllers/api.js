@@ -1,5 +1,5 @@
-app.controller("apiController", ["$scope", "$window", 
-	function ($scope, $window) { 
+app.controller("apiController", ["$scope", "$window", "$firebaseArray", 
+	function ($scope, $window, $firebaseArray) { 
 	
 	//variables for google instances and objects.
 	$scope.map = "";
@@ -81,10 +81,10 @@ app.controller("apiController", ["$scope", "$window",
 		if (keyEvent.which === 13) {			
 			//getting the input string as address for geocoder.
 			address = document.getElementById('to').value;
-			console.log("address", address);
+			// console.log("address", address);
 			//passing address to destinationA for distance matrix.
 			destinationA = address;
-			console.log("destinationA", destinationA);
+			// console.log("destinationA", destinationA);
 			//passing map object and geocoder instance to function.
 			$scope.geocodeAddress(geocoder, map);
 		}//end if.
@@ -150,21 +150,21 @@ app.controller("apiController", ["$scope", "$window",
         		geocoder.geocode({'address': originList[i]}, function(results, status) {
         			//geocoder.geocode needs to pass two arguments otherwise, it will error.
         		});
-        		console.log("originList", originList);
+        		// console.log("originList", originList);
         		
         		//DESTINATION DATA
         		for (var j = 0; j < results.length; j++) {
           			geocoder.geocode({'address': destinationList[j]}, function(results, status) {
           				//geocoder.geocode needs to pass two arguments otherwise, it will error.
           			});
-          			console.log("destinationList", destinationList);
+          			// console.log("destinationList", destinationList);
 
           			//Output
           	 		// $scope.outputDiv += originList[i] + ' to ' + destinationList[j] +
            	  //   	': ' + results[j].distance.text + ' in ' +
             	 //   	results[j].duration.text + '<br>';
             	 	$scope.outputDiv = results[j].duration.text;
-           			console.log("outputDiv", $scope.outputDiv);
+           			// console.log("outputDiv", $scope.outputDiv);
            			console.log("results[j].duration", results[j].duration.text);
        				}
 				}
@@ -173,6 +173,25 @@ app.controller("apiController", ["$scope", "$window",
 			});
 		};//end of function
 
+
+		//Saving to firebase
+		$scope.SaveRoute = function() {
+			var ref = new Firebase("https://commutealert.firebaseio.com/routes");
+			$scope.routes = $firebaseArray(ref);
+			var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
+			// Getting user info
+			var userId = ref.getAuth().uid;
+
+			//pushing to pin to firebase
+			routesRef.push({
+					"userId": userId,
+					"origin2": origin2,
+					"destinationA": destinationA
+				});
+			console.log("userId", ref.getAuth().uid);
+			console.log("in firebase", origin2, destinationA);
+  			
+		};
 			
 }]);//end of controller
 

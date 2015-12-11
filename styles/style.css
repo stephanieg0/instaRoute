@@ -35,3 +35,28 @@ input {
 h2 {
 	text-align: center;
 }
+
+/*Routes in home*/
+.route-container {
+	background-color: gray;
+	width: 350px;
+	height: 300px;
+}
+
+.address-inputs {
+	padding-top: 10px;
+}
+#from {
+	width: 350px;
+}
+#to {
+	width: 350px;
+}
+#save-route {
+	margin: 30px 35%;
+	width: 100px;
+}
+
+
+
+
