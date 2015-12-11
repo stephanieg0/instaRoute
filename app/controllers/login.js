@@ -1,7 +1,7 @@
-app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", "$location",
-	function ($scope, $firebaseArray, $firebaseAuth, $location) { 
-		
-
+app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", "$location", "$rootScope",
+	function ($scope, $firebaseArray, $firebaseAuth, $location, $rootScope) { 
+	//the map is hidden.
+  $rootScope.loggedin = true;
 
 	$scope.facebookLogin = function() {
 		//firebase reference to app url.
@@ -11,14 +11,17 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
 
 		auth.$authWithOAuthPopup("facebook").then(function (authData){
   			console.log("logged in as:", authData.uid);
-        	//setting data inside current user.
-        	ref.child(authData.uid).set(authData);
-        	//if the auth is successfull, relocate to the home url.
+        //setting data inside current user.
+        ref.child(authData.uid).set(authData);
+        //if the auth is successfull, relocate to the home url.
   			$location.url("/commuteAlert/home");
+        //displaying the map after loggin in.
+        $rootScope.loggedin = false;
 
   			}).catch(function(error){
   				console.log("authentication failed:", error);
   				});
+
   		
 
   		};//end of facebookLogin

@@ -1,21 +1,30 @@
+/*Navigation bar*/
+#navigation {
+	background-color: gray;
+	display: block;
+	height: 30px;
+}
+#logout {
+	color: white;
+}
 /* Map Section */
 /*html, body { height: 100%; margin: 0; padding: 0; }*/
+.mapHidden {
+	visibility: hidden;
+	height: 50px;
+}
+
 #map-container {
-	height: 300px;
-	width: 300px;
+	margin: 10px 20%;
+	height: 250px;
+	width: 600px;
 }
 #map { height: 100%; }
 
-#calculation {
-	width: 100px;
-	height: 50px;
-}
 input {
 	width: 500px;
 }
-#calculate-button {
-	display: inline-block;
-}
+
 
 /* Sign in Section */
 .form-signin {
