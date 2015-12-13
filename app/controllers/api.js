@@ -39,7 +39,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		$scope.markersArray.push(new google.maps.Marker({
 		    position: myLatLng,
 		    map: map,
-		    title: 'Hello World!'
+		    title: 'Deafult Marker'
 		  }));
 
 		//geocoder instance for making address into coordinates.
@@ -60,8 +60,18 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		var autocomplete = new $window.google.maps.places.Autocomplete(input, $scope.markersArray);
 
 		//Get complete address on enter key.
-		if (keyEvent.which === 13) {			
-		// $scope.markersArray.pop();	
+		if (keyEvent.which === 13) {
+			//removing the deafult array. to find it I look for the title property.
+			for (var i = 0; i < $scope.markersArray.length; i++) {
+				//if the title property equals the deafult marker, get the index of that element.
+				if ($scope.markersArray[i].title === "Deafult Marker"){
+					console.log("index of deafult array", i);
+					//remove the index of the element that had the title property.
+					$scope.markersArray.splice(i, 1);
+				}
+			}	
+			
+			console.log("$scope.markersArray", $scope.markersArray);	
 			//getting the input string as address for geocoder.
 			address = document.getElementById('from').value;
 			
@@ -84,7 +94,18 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		var autocomplete = new $window.google.maps.places.Autocomplete(input, $scope.markersArray);
 
 		//Get complete address on enter key.
-		if (keyEvent.which === 13) {			
+		if (keyEvent.which === 13) {
+			//removing the deafult array. to find it I look for the title property.
+			for (var i = 0; i < $scope.markersArray.length; i++) {
+				//if the title property equals the deafult marker, get the index of that element.
+				if ($scope.markersArray[i].title === "Deafult Marker"){
+					console.log("index of deafult array", i);
+					//remove the index of the element that had the title property.
+					$scope.markersArray.splice(i, 1);
+				}
+			}
+		
+			console.log("$scope.markersArray", $scope.markersArray);			
 			//getting the input string as address for geocoder.
 			address = document.getElementById('to').value;
 			console.log("address", address);
@@ -97,14 +118,18 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	};//end of placesTo function.
 
 	//This is the saved individual route origin and destination info.
-	$scope.SavedRoute = function(origin, destination) {
+	$scope.SavedRouteFirebase = function(origin, destination) {
+		console.log("origin", origin);
+		console.log("destination", destination);
 		//need to assign both origin and destination to address variable and pass it to geocoder.
 		address = origin;
 		origin2 = origin;
-		
-		$scope.geocodeAddress(geocoder, map).then(function(){
-			console.log("should I call a promise??");
-		});
+		destinationA = destination;
+		$scope.geocodeAddress(geocoder, map);
+
+		// $scope.geocodeAddress(geocoder, map).then(function(){
+		// 	console.log("should I call a promise??");
+		// });
 
 		//*** I need to wait until origin has gone through the geocode address to define the destination.
 
@@ -125,8 +150,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	            zoom: 10,
 	            mapTypeId: google.maps.MapTypeId.ROADMAP        
 	        	}));//end of Marker
-	        	console.log("$scope.markersArray", $scope.markersArray);
-	        	console.log("origin2", origin2);
+	        	// console.log("$scope.markersArray in geocodeAddress", $scope.markersArray);
+	        	// console.log("origin2", origin2);
 			    //** getting the position from orign and destination in any given order.
 			    for (var i = 0; i < $scope.markersArray.length; i++) {
 					// console.log("loop markersArray", $scope.markersArray[i].position);
@@ -154,6 +179,10 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	//** Getting time and distance from geocodeAddress origin and destination format.
 	$scope.GetMatrix = function() {	
 		//** need both origin and destination to be defined first.
+		console.log("GetMatrix origin1", origin1);
+		console.log("GetMatrix origin2", origin2);
+		console.log("GetMatrix destinationA", destinationA);
+		console.log("GetMatrix destinationB, should not be 50 and 14", destinationB);
 		service.getDistanceMatrix({
 	    origins: [origin1, origin2],
 	    destinations: [destinationA, destinationB],
@@ -181,7 +210,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
     		geocoder.geocode({'address': originList[i]}, function(results, status) {
     			//geocoder.geocode needs to pass two arguments otherwise, it will error.
     		});
-    		// console.log("originList", originList);
+    		//console.log("originList", originList);
     		
     		//Destination List
     		for (var j = 0; j < results.length; j++) {
@@ -189,7 +218,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
       			geocoder.geocode({'address': destinationList[j]}, function(results, status) {
       				//geocoder.geocode needs to pass two arguments otherwise, it will error.
       			});
-      			// console.log("destinationList", destinationList);
+      			//console.log("destinationList", destinationList);
 
       			//Output	
       	 		// $scope.outputDiv += originList[i] + ' to ' + destinationList[j] +
@@ -208,6 +237,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 
 	//Saving to firebase
 	$scope.SaveRoute = function() {
+		console.log("origin1", origin1);
+		console.log("destinationB", destinationB);
 		//get the html element input for the autocomplete
 		var routeName = document.getElementById('route-name').value;
 		//firebase refrences to correct path
@@ -221,7 +252,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 				"routeName": routeName,
 				"userId": userId,
 				"origin2": origin2,
-				"destinationA": destinationA
+				"destinationA": destinationA,
 			});
 		console.log("userId", ref.getAuth().uid);
 		console.log("in firebase", origin2, destinationA);
