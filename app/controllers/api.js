@@ -203,8 +203,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
 
 		//Deleting from firebase
-		$scope.DeleteRoute = function() {
-			console.log("button works");
+		$scope.DeleteRoute = function(route) {
+			$scope.routes.$remove(route);
+			console.log(route, "removed");
 		};
 			
 }]);//end of controller
