@@ -55,8 +55,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		var autocomplete = new $window.google.maps.places.Autocomplete(input, $scope.markersArray);
 
 		//Get complete address on enter key.
-		if (keyEvent.which === 13) {
-		$scope.markersArray.pop();	
+		if (keyEvent.which === 13) {			
+		// $scope.markersArray.pop();	
 			//getting the input string as address for geocoder.
 			address = document.getElementById('from').value;
 			
@@ -81,15 +81,21 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		if (keyEvent.which === 13) {			
 			//getting the input string as address for geocoder.
 			address = document.getElementById('to').value;
-			// console.log("address", address);
+			console.log("address", address);
 			//passing address to destinationA for distance matrix.
 			destinationA = address;
 			// console.log("destinationA", destinationA);
 			//passing map object and geocoder instance to function.
 			$scope.geocodeAddress(geocoder, map);
 		}//end if.
-
 	};//end of placesTo function.
+
+	//This is the saved individual route origin and destination info.
+		$scope.SavedRoute = function(origin, destination) {
+			
+			
+
+		}//end of SavedRoute function.
 
 	//changin the marker position
 	$scope.geocodeAddress = function (geocoder, map) {
@@ -102,25 +108,36 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 	            map: map,
 	            position: results[0].geometry.location,
 	            zoom: 10,
-	            mapTypeId: google.maps.MapTypeId.ROADMAP
-	        }));
-	        //setting new position from geocoder for distance matrix variables.
-	    	origin1 = $scope.markersArray[0].position;	        
-	    	
-	    	//setting second array for distance matrix.  	
-	      	} else {
+	            mapTypeId: google.maps.MapTypeId.ROADMAP        
+	        	}));//end of Marker
+			    //** getting the position from orign and destination in any given order.
+			    for (var i = 0; i < $scope.markersArray.length; i++) {
+					// console.log("loop markersArray", $scope.markersArray[i].position);
+					//** If the address matches the origin input, assign the current position to the origin.
+					if (origin2 === address){
+					origin1	= $scope.markersArray[i].position;
+					// console.log("origin2", origin2);
+					//** If the address matched the destination, assign the current position to the destination.
+					} if (destinationA === address) {
+						destinationB = $scope.markersArray[i].position;
+						console.log("destinationA", destinationA);
+					}
+				}//end of loop
+			//** if geocoder does not have address give an error.	
+	        }else {
 	        	alert("Geocode was not successful for the following reason: " + status);
-	      			}
+	        	console.log("Geocode error", status);
+	      		}
+	      	//** if the markers array contains 2 objects, call GetMatrix function for distance and time.
       		if ($scope.markersArray.length === 2) {
-				//setting new position from geocoder for distance matrix variables.
-    			destinationB = $scope.markersArray[1].position;
-    			$scope.GetMatrix();
+     			$scope.GetMatrix();
 				}
 	    	});
 		};
 		
-		//getting new format of the geo code address and running Distance Matrix
+		//** Getting time and distance from geocodeAddress origin and destination format.
 		$scope.GetMatrix = function() {	
+			//** need both origin and destination to be defined first.
 			service.getDistanceMatrix({
 		    origins: [origin1, origin2],
 		    destinations: [destinationA, destinationB],
@@ -132,37 +149,36 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		    if (status !== google.maps.DistanceMatrixStatus.OK) {
 		      alert('Error was: ' + status);
 		    } else {
+		    	//** new list/format of the origin and destination.
 		      	var originList = response.originAddresses;
 		      	var destinationList = response.destinationAddresses;
-		      	// console.log("originList", originList);
-		      	// console.log("destinationList", destinationList);
-		      	//Defining variables to outPut to dom.
-		      	// var outputDiv = document.getElementById('output');
-		      	// outputDiv.innerHTML = '';
-		      	// deleteMarkers(markersArray);
+		      	console.log("originList", originList);
+		      	console.log("destinationList", destinationList);
 		    	}//end of else
 			
-			//Getting the time and distance based on geocode!
+			//Origin List
+			//** the new origin format is an array. 
 			for (var i = 0; i < originList.length; i++) {
-				//ORIGIN DATA
-				//getting distane and duration
+				//Getting distance and duration for origin and destination
         		var results = response.rows[i].elements;
+        		//console.log("results", results);
         		geocoder.geocode({'address': originList[i]}, function(results, status) {
         			//geocoder.geocode needs to pass two arguments otherwise, it will error.
         		});
         		// console.log("originList", originList);
         		
-        		//DESTINATION DATA
+        		//Destination List
         		for (var j = 0; j < results.length; j++) {
+
           			geocoder.geocode({'address': destinationList[j]}, function(results, status) {
           				//geocoder.geocode needs to pass two arguments otherwise, it will error.
           			});
           			// console.log("destinationList", destinationList);
 
-          			//Output
+          			//Output	
           	 		// $scope.outputDiv += originList[i] + ' to ' + destinationList[j] +
-           	  //   	': ' + results[j].distance.text + ' in ' +
-            	 //   	results[j].duration.text + '<br>';
+           	  		//': ' + results[j].distance.text + ' in ' +
+            	    //results[j].duration.text + '<br>';
             	 	$scope.outputDiv = results[j].duration.text;
            			// console.log("outputDiv", $scope.outputDiv);
            			console.log("results[j].duration", results[j].duration.text);
@@ -170,6 +186,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 				}
 				//the scope needs to be applied so the outputDiv can show up because of the nested forloops.
        			$scope.$apply();
+       			
 			});
 		};//end of function
 
@@ -177,14 +194,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		//Saving to firebase
 		$scope.SaveRoute = function() {
 			//get the html element input for the autocomplete
-			var inputRouteName = document.getElementById('route-name');
-			var routeName = inputRouteName.toLowerCase();
+			var routeName = document.getElementById('route-name').value;
 			//firebase refrences to correct path
 			var ref = new Firebase("https://commutealert.firebaseio.com/routes");
 			var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
 			// Getting user info
 			var userId = ref.getAuth().uid;
-
+			console.log("route name", routeName);
 			//pushing route info to firebase
 			routesRef.push({
 					"routeName": routeName,
@@ -207,6 +223,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 			$scope.routes.$remove(route);
 			console.log(route, "removed");
 		};
+
+		
 			
 }]);//end of controller
 

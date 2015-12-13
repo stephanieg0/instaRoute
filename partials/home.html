@@ -16,12 +16,12 @@
 	<div ng-model="routes">
 		<div id="{{route.userId}}">
 			<button type-"button" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
-			<div>{{route.routeName}}</div>
-			<div class="output-origin">{{route.origin2}}</div>
-			<div class="output-destination">{{route.destinationA}}</div>
+			<h4>{{route.routeName}}</h4>
+			<div class="output-origin">O - {{route.origin2}}</div>
+			<div class="output-destination">D - {{route.destinationA}}</div>
 		</div>
+			<button class="get-time-button" ng-click="SavedRoute(route.origin2, route.destinationA)">Get Time</button>
 	</div>
-			<button class="get-time-button">Get Time</button>
 </div>
 
 
