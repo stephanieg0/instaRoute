@@ -10,10 +10,10 @@
         <title>Commute Alert</title>
 	</head>
 	<body ng-app="app">
-		<nav id="navigation">
-			<a href="#/commuteAlert/login" id="logout">log out</a>
-		</nav>
 		<section ng-controller="apiController">
+		<nav id="navigation" ng-class="{'nav-hidden': loggedin}"><!--Nav bar shows after loggein function runs-->
+			<a href="#/commuteAlert/login" id="logout" ng-click="LogOut()">log out</a>
+		</nav>
 			<div class="container-fluid">
 
 				<div id="map-container" ng-class="{'mapHidden': loggedin}"><!--for resizing the map. loggedin is applied in the login.js to display the map after loggin in/look at css doc-->
@@ -31,7 +31,7 @@
 		<script src="lib/bower_components/angularfire/dist/angularfire.min.js"></script>
 
 		<!--key/library for google maps-->
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUWcwmKcS5LkAvrIX0jFqSnHF4k7iOVno&callback=initMap&libraries=places"></script> 
+		 
 	 
 
 		<!--Js files-->

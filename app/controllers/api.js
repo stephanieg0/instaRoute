@@ -46,6 +46,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		geocoder = new google.maps.Geocoder();
 		//distance matrix instance to get time from origin to destination.
 		service = new google.maps.DistanceMatrixService;
+		var trafficLayer = new google.maps.TrafficLayer();
+  		trafficLayer.setMap(map);
 		
 	};
 
@@ -227,6 +229,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
         	 	$scope.outputDiv = results[j].duration.text;
        			// console.log("outputDiv", $scope.outputDiv);
        			console.log("results[j].duration", results[j].duration.text);
+       			console.log(originList[i] + ' to ' + destinationList[j] + ': ' + results[j].distance.text + ' in ' + results[j].duration.text);
    				}
 			}
 			//the scope needs to be applied so the outputDiv can show up because of the nested forloops.
@@ -270,6 +273,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		console.log(route, "removed");
 	};
 
+	//LogOut
+	$scope.LogOut = function() {
+		ref.unauth();
+		console.log("logged out");
+	};
 		
 			
 }]);//end of controller
