@@ -9,6 +9,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	var mapOptions = {}
 	$scope.geocoder = "";
 	$scope.service = "";
+  	$scope.directionsService = "";
+  	$scope.directionsDisplay = "";
 	//variable to get whole address for geocoder.
 	var address = "";
 	//array to have more than one marker who up in the map.
@@ -24,6 +26,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
   	var destinationB = {lat: 50.087, lng: 14.421};
   	//output for dom.
   	$scope.outputDiv = "";
+
 
 	//initializing the map when app loads(part of the script tag in html). 
 	//Deafult to Nashville
@@ -42,12 +45,16 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		    title: 'Deafult Marker'
 		  }));
 
+		//Directions Service to get directions on the map.
+		$scope.directionsService = new google.maps.DirectionsService;
+  		$scope.directionsDisplay = new google.maps.DirectionsRenderer;
+  		$scope.directionsDisplay.setMap(map);
 		//geocoder instance for making address into coordinates.
 		geocoder = new google.maps.Geocoder();
 		//distance matrix instance to get time from origin to destination.
 		service = new google.maps.DistanceMatrixService;
-		var trafficLayer = new google.maps.TrafficLayer();
-  		trafficLayer.setMap(map);
+		// var trafficLayer = new google.maps.TrafficLayer();
+  // 		trafficLayer.setMap(map);
 		
 	};
 
@@ -67,13 +74,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 			for (var i = 0; i < $scope.markersArray.length; i++) {
 				//if the title property equals the deafult marker, get the index of that element.
 				if ($scope.markersArray[i].title === "Deafult Marker"){
-					console.log("index of deafult array", i);
+					//console.log("index of deafult array", i);
 					//remove the index of the element that had the title property.
 					$scope.markersArray.splice(i, 1);
 				}
 			}	
 			
-			console.log("$scope.markersArray", $scope.markersArray);	
+			//console.log("$scope.markersArray", $scope.markersArray);	
 			//getting the input string as address for geocoder.
 			address = document.getElementById('from').value;
 			
@@ -101,16 +108,16 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 			for (var i = 0; i < $scope.markersArray.length; i++) {
 				//if the title property equals the deafult marker, get the index of that element.
 				if ($scope.markersArray[i].title === "Deafult Marker"){
-					console.log("index of deafult array", i);
+					// console.log("index of deafult array", i);
 					//remove the index of the element that had the title property.
 					$scope.markersArray.splice(i, 1);
 				}
 			}
 		
-			console.log("$scope.markersArray", $scope.markersArray);			
+			//console.log("$scope.markersArray", $scope.markersArray);			
 			//getting the input string as address for geocoder.
 			address = document.getElementById('to').value;
-			console.log("address", address);
+			//console.log("address", address);
 			//passing address to destinationA for distance matrix.
 			destinationA = address;
 			// console.log("destinationA", destinationA);
@@ -121,8 +128,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 
 	//This is the saved individual route origin and destination info.
 	$scope.SavedRouteFirebase = function(origin, destination) {
-		console.log("origin", origin);
-		console.log("destination", destination);
+		// console.log("origin", origin);
+		// console.log("destination", destination);
 		//need to assign both origin and destination to address variable and pass it to geocoder.
 		address = origin;
 		origin2 = origin;
@@ -141,7 +148,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	//changin the marker position
 	$scope.geocodeAddress = function (geocoder, map) {
 
-		console.log("geocoderAdress:", address);
+		// console.log("geocoderAdress:", address);
 		//pushing address key into the geocode from google to get coordinates and change the map.		
 		geocoder.geocode( { 'address': address}, function(results, status) {
 	      if (status == google.maps.GeocoderStatus.OK) {
@@ -160,11 +167,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 					//** If the address matches the origin input, assign the current position to the origin.
 					if (origin2 === address){
 					origin1	= $scope.markersArray[i].position;
-					console.log("origin2", origin2);
+					// console.log("origin2", origin2);
 					//** If the address matched the destination, assign the current position to the destination.
 					} if (destinationA === address) {
 						destinationB = $scope.markersArray[i].position;
-						console.log("destinationA", destinationA);
+						// console.log("destinationA", destinationA);
 					}
 				}//end of loop
 			//** if geocoder does not have address give an error.	
@@ -174,17 +181,41 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	      	//** if the markers array contains 2 objects, call GetMatrix function for distance and time.
       		if ($scope.markersArray.length === 2) {
      			$scope.GetMatrix();
+     			$scope.calculateAndDisplayRoute($scope.directionsService, $scope.directionsDisplay);
 				}
 	    	});
 		};
+
+	//** Getting directions
+	$scope.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
+
+		$scope.directionsService.route({
+			origin: origin2,
+			destination: destinationA,
+			travelMode: google.maps.TravelMode.DRIVING
+		}, function(response, status) {
+			if (status === google.maps.DirectionsStatus.OK) {
+				$scope.directionsDisplay.setDirections(response);
+				//console.log("response.routes[0].summary", response.routes[0].summary);
+			} else {
+		  		window.alert('Directions request failed due to ' + status);
+			}
+			for (var i = 0; i < response.routes.length; i++){
+				console.log("route summay", response.routes[i].summary);
+			}
+		$scope.$apply();
+		});
+	};
+
+
 		
 	//** Getting time and distance from geocodeAddress origin and destination format.
 	$scope.GetMatrix = function() {	
 		//** need both origin and destination to be defined first.
-		console.log("GetMatrix origin1", origin1);
-		console.log("GetMatrix origin2", origin2);
-		console.log("GetMatrix destinationA", destinationA);
-		console.log("GetMatrix destinationB, should not be 50 and 14", destinationB);
+		// console.log("GetMatrix origin1", origin1);
+		// console.log("GetMatrix origin2", origin2);
+		// console.log("GetMatrix destinationA", destinationA);
+		// console.log("GetMatrix destinationB, should not be 50 and 14", destinationB);
 		service.getDistanceMatrix({
 	    origins: [origin1, origin2],
 	    destinations: [destinationA, destinationB],
@@ -199,8 +230,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	    	//** new list/format of the origin and destination.
 	      	var originList = response.originAddresses;
 	      	var destinationList = response.destinationAddresses;
-	      	console.log("originList", originList);
-	      	console.log("destinationList", destinationList);
+	      	// console.log("originList", originList);
+	      	// console.log("destinationList", destinationList);
 	    	}//end of else
 		
 		//Origin List
@@ -240,8 +271,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 
 	//Saving to firebase
 	$scope.SaveRoute = function() {
-		console.log("origin1", origin1);
-		console.log("destinationB", destinationB);
+		//console.log("origin1", origin1);
+		//console.log("destinationB", destinationB);
 		//get the html element input for the autocomplete
 		var routeName = document.getElementById('route-name').value;
 		//firebase refrences to correct path
@@ -257,8 +288,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 				"origin2": origin2,
 				"destinationA": destinationA,
 			});
-		console.log("userId", ref.getAuth().uid);
-		console.log("in firebase", origin2, destinationA);
+		//console.log("userId", ref.getAuth().uid);
+		//console.log("in firebase", origin2, destinationA);
 			
 	};
 
@@ -270,13 +301,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	//Deleting from firebase
 	$scope.DeleteRoute = function(route) {
 		$scope.routes.$remove(route);
-		console.log(route, "removed");
+		//console.log(route, "removed");
 	};
 
 	//LogOut
 	$scope.LogOut = function() {
 		ref.unauth();
-		console.log("logged out");
+		//console.log("logged out");
 	};
 		
 			
