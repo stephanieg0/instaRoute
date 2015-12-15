@@ -12,8 +12,6 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	var mapOptions = {}
 	$scope.geocoder = "";
 	$scope.service = "";
-  	$scope.directionsService = "";
-  	$scope.directionsDisplay = "";
 	//variable to get whole address for geocoder.
 	var address = "";
 	//array to have more than one marker in the map.
@@ -31,9 +29,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 
   	//output for dom.
   	$scope.outputDiv = "";
-
-  	var counter = 0;
-
+  	//Id from firebase to be defined.
   	$scope.currentRouteID = "";
 
 
@@ -48,20 +44,22 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	  }
 	 	//creates a map inside the map div
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-		//marker deafult
-		$scope.markersArray.push(new google.maps.Marker({
-		    position: myLatLng,
-		    map: map,
-		    title: 'Deafult Marker'
-		  }));
+		//marker deafult***** NOT NEEDED.
+		// $scope.markersArray.push(new google.maps.Marker({
+		//     position: myLatLng,
+		//     map: map,
+		//     title: 'Deafult Marker'
+		//   }));
 		
+		//map instances for display.
+		$scope.directionsService = new google.maps.DirectionsService;
+  		$scope.directionsDisplay = new google.maps.DirectionsRenderer;
+  		$scope.directionsDisplay.setMap(map);
 		//geocoder instance for making address into coordinates.
 		geocoder = new google.maps.Geocoder();
 		//distance matrix instance to get time from origin to destination.
-		service = new google.maps.DistanceMatrixService;
-		// var trafficLayer = new google.maps.TrafficLayer();
-     	//	trafficLayer.setMap(map);
-		
+		service = new google.maps.DistanceMatrixService;		
+		console.log("initMap $scope.directionsService", $scope.directionsService);
 	};
 
 	//setting autocomplete function for input field.
@@ -128,6 +126,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	//*** I need to wait until origin has gone through the geocode address and give coordinates, 
 	//and then pass the destination.
 	$scope.SavedRouteFirebase = function(origin, destination) {	
+		console.log("getTime $scope.directionsService", $scope.directionsService);
 		console.log("origin", origin);
 		console.log("destination", destination);
 		//removing the deafult array. to find it I look for the title property.
@@ -177,7 +176,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		            zoom: 10,
 		            mapTypeId: google.maps.MapTypeId.ROADMAP        
 	        	}));//end of Marker
-	        	console.log("$scope.markersArray in geocodeAddress", $scope.markersArray);
+	        	//console.log("$scope.markersArray in geocodeAddress", $scope.markersArray);
 				//** getting the position from orign and destination in any given order.
 				for (var i = 0; i < $scope.markersArray.length; i++) {
 				// console.log("loop markersArray", $scope.markersArray[i].position);
@@ -190,11 +189,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 						destinationB = $scope.markersArray[i].position;
 						//console.log("geocoderAddress destinationA", destinationA);
 					}
-				}//end of loop
-				for (var i = 0; i < 2; i++){
-					counter += i;
-					//console.log("Geocoder COUNTER", counter);
-				}
+				}//end of loop.		
 			//** if geocoder does not have address, give an error.	
 	    	}else {
 	        	alert("Geocode was not successful for the following reason: " + status);	
@@ -203,19 +198,19 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
       		if ($scope.markersArray.length === 2) {
      			$scope.GetMatrix();
      			$scope.calculateAndDisplayRoute($scope.directionsService, $scope.directionsDisplay);
+     			console.log("geocode $scope.directionsService", $scope.directionsService);
 			}
     	});//end of geocoder.geocode()
 			
 	};//end of geocodeAddress.
 
-	//** Getting directions on the map.
+	//** Route map display.
 	$scope.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
-		$scope.directionsService = new google.maps.DirectionsService;
-  		$scope.directionsDisplay = new google.maps.DirectionsRenderer;
-  		$scope.directionsDisplay.setMap(map);		
-		console.log("This is DirectionsService");
-		console.log("origin2", origin2);
-		console.log("destinationA", destinationA);
+		
+		$scope.directionsService = directionsService;
+		$scope.directionsDisplay = directionsDisplay;
+		// console.log("origin2", origin2);
+		// console.log("destinationA", destinationA);
 		$scope.directionsService.route({
 			origin: origin2,
 			destination: destinationA,
@@ -228,7 +223,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		  		window.alert('Directions request failed due to ' + status);
 			}
 			for (var i = 0; i < response.routes.length; i++){
-				//console.log("route summay", response.routes[i].summary);
+				console.log("route summay", response.routes[i].summary);
 			}
 		$scope.$apply();
 		});
@@ -331,8 +326,6 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 			"destinationA": destinationA,
 			"timeDuration": ""
 		});
-	//console.log("userId", ref.getAuth().uid);
-	//console.log("in firebase", origin2, destinationA);
 			
 	};
 
@@ -346,7 +339,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	//LogOut
 	$scope.LogOut = function() {
 		ref.unauth();
-		//console.log("logged out");
+		//need to reset the map.
 	};
 		
 			
