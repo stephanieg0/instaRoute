@@ -4,6 +4,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	//Loading from firebase and defining scope route for html binding
 	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
 	$scope.routes = $firebaseArray(ref);
+	$scope.routes.currentRoute = {};
 	//variables for the inputHTML.
 	var fromInput = "";
 	var toInput = "";
@@ -39,9 +40,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	$window.initMap = function () {
 		//deafult for map
 		mapOptions =  {
-	    center: myLatLng,
-	    zoom: 10
-	  }
+	    	center: myLatLng,
+	    	zoom: 10
+	  	}
 	 	//creates a map inside the map div
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);	
 		//map instances for display.
@@ -70,9 +71,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 			//getting the input string as address for geocoder.
 			//and passing address to origin2 for distance matrix.
 			origin2 = document.getElementById('from').value;
-			
+
 			//passing map object and geocoder instance to function.
 			$scope.geocodeAddress(geocoder, map, origin2);
+			$scope.routes.currentRoute = {
+				"timeDuration": "",
+				"routeSummary": ""
+			}
 			
 		}//end if.
 	};//end of placesFrom function.
@@ -183,8 +188,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		  		window.alert('Directions request failed due to ' + status);
 			}
 			for (var i = 0; i < response.routes.length; i++){
-				console.log("route summay", response.routes[i].summary);
+				// console.log("route summay", response.routes[i].summary);
+				
+				$scope.routes.currentRoute.routeSummary = response.routes[i].summary;
+				console.log("$scope.routes.currentRoute.routeSummary", $scope.routes.currentRoute.routeSummary);
+				
 			}
+
 		$scope.$apply();
 		});
 
@@ -194,12 +204,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		
 	//** Getting time and distance from geocodeAddress origin and destination format.
 	$scope.GetMatrix = function() {
-		console.log("this is GetMatrix");
-		//** need both origin and destination to be defined first.
-		// console.log("GetMatrix origin1", origin1);
-		// console.log("GetMatrix origin2", origin2);
-		// console.log("GetMatrix destinationA", destinationA);
-		// console.log("GetMatrix destinationB, should not be 50 and 14", destinationB);
+		//console.log("this is GetMatrix");
 		service.getDistanceMatrix({
 	    origins: [origin1, origin2],
 	    destinations: [destinationA, destinationB],
@@ -234,10 +239,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
       			geocoder.geocode({'address': destinationList[j]}, function(results, status) {
       				//geocoder.geocode needs to pass two arguments otherwise, it will error.
       			});
-      			
-        	 	console.log("$scope.routes.currentRoute.timeDuration", $scope.routes.currentRoute.timeDuration);
-        	 	$scope.routes.currentRoute.timeDuration = results[j].duration.text;
-        	 	       		
+      			//if $scope.routes.currentRoute.timeDuration is found and equals to empty string, then assgin duration.	
+
+	        	console.log("$scope.routes.currentRoute.timeDuration", $scope.routes.currentRoute.timeDuration);
+	        	$scope.routes.currentRoute.timeDuration = results[j].duration.text;
+      			        	 	        		
    			}//end of loop
 		}//end of loop
 		//emptying markerArray.
@@ -254,6 +260,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 
 	//Saving to firebase
 	$scope.SaveRoute = function() {
+		document.getElementById('route-name').value = "";
+		document.getElementById('to').value = "";
+		document.getElementById('from').value = "";
 		//console.log("origin1", origin1);
 		//console.log("destinationB", destinationB);
 		//get the html element input for the autocomplete
@@ -270,7 +279,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 			"userId": userId,
 			"origin2": origin2,
 			"destinationA": destinationA,
-			"timeDuration": ""
+			"timeDuration": "",
+			"routeSummary": ""
 		});
 			
 	};
@@ -284,6 +294,10 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 
 	//LogOut
 	$scope.LogOut = function() {
+		mapOptions =  {
+	    	center: myLatLng,
+	    	zoom: 10
+	  	}
 		//Reseting the map when loggin out.
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);	
 		//reseting map instances for display.
