@@ -9,19 +9,22 @@
 		</div>
 	</div>
 	<button id="save-route-button" ng-click="SaveRoute()">Create Route</button>
-	<div>time: {{outputDiv}}</div>
+	<!--<div>time: {{outputDiv}}</div>-->
 </div>
 
 <div class="individual-route-container col-sm-3" ng-repeat="route in routes | filter: {userId: userId}">
 	<div ng-model="routes">
 		<div id="{{route.userId}}">
-			<button type-"button" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
+			<button type="button" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
 			<h4>{{route.routeName}}</h4>
 			<div class="output-origin">O - {{route.origin2}}</div>
 			<div class="output-destination">D - {{route.destinationA}}</div>
-		</div>
 			<button class="get-time-button" ng-click="SavedRouteFirebase(route.origin2, route.destinationA)">Get Time</button>
-		<!--<div>time: {{outputDiv}}</div> need to make output specific-->
+			<div id="{{currentRouteID}}">
+				<div>time: {{route.timeDuration}}</div>
+			</div>
+			
+		</div>
 	</div>
 </div>
 

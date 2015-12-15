@@ -1,6 +1,9 @@
 app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q", 
 	function ($scope, $window, $firebaseArray, $q) { 
 
+	//Loading from firebase and defining scope route for html binding
+	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
+	$scope.routes = $firebaseArray(ref);
 	//variables for the inputHTML.
 	var fromInput = "";
 	var toInput = "";
@@ -13,10 +16,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
   	$scope.directionsDisplay = "";
 	//variable to get whole address for geocoder.
 	var address = "";
-	//array to have more than one marker who up in the map.
+	//array to have more than one marker in the map.
 	$scope.markersArray = []; 
 	//setting global latitude and longitud. Deafult to Nashville.Needed to show map.
 	var myLatLng = {lat: 36.166361, lng: -86.781167};
+
 	//variables for google's distance matrix.
 	//my origin in address form and coordinates.
 	var origin1 = {lat: 55.93, lng: -3.118};
@@ -24,11 +28,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
   	//my destination in address form and coordinates.
   	var destinationA = 'Stockholm, Sweden';
   	var destinationB = {lat: 50.087, lng: 14.421};
+
   	//output for dom.
   	$scope.outputDiv = "";
 
-  	var deferred = "";
   	var counter = 0;
+
+  	$scope.currentRouteID = "";
+
+
 
 	//initializing the map when app loads(part of the script tag in html). 
 	//Deafult to Nashville
@@ -76,9 +84,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 					//remove the index of the element that had the title property.
 					$scope.markersArray.splice(i, 1);
 				}
-			}	
-			
-				
+			}//end of loop.			
 			//getting the input string as address for geocoder.
 			//and passing address to origin2 for distance matrix.
 			origin2 = document.getElementById('from').value;
@@ -108,8 +114,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 					//remove the index of the element that had the title property.
 					$scope.markersArray.splice(i, 1);
 				}
-			}
-					
+			}//end of loop.				
 			//getting the input string as address for geocoder.
 			//and passing address to destinationA for distance matrix.
 			destinationA = document.getElementById('to').value;
@@ -122,9 +127,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	//This is the saved individual route origin and destination info.
 	//*** I need to wait until origin has gone through the geocode address and give coordinates, 
 	//and then pass the destination.
-	$scope.SavedRouteFirebase = function(origin, destination) {
-		// console.log("origin", origin);
-		// console.log("destination", destination);
+	$scope.SavedRouteFirebase = function(origin, destination) {	
+		console.log("origin", origin);
+		console.log("destination", destination);
 		//removing the deafult array. to find it I look for the title property.
 		for (var i = 0; i < $scope.markersArray.length; i++) {
 			//if the title property equals the deafult marker, get the index of that element.
@@ -142,11 +147,25 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 
 		$scope.geocodeAddress(geocoder, map, destination);
 
+		
+		//getting the Selected/current Route in firebase.
+		for (var i = 0; i < $scope.routes.length; i ++){
+			if($scope.routes[i].origin2 === origin && $scope.routes[i].destinationA === destination){
+				//specific id from firebase.
+				$scope.currentRouteID = $scope.routes[i].$id;
+				//specific route to determine time duration in distance Matrix output.
+				$scope.routes.currentRoute = $scope.routes[i];
+				//console.log("$scope.routes[i]", $scope.routes[i]);
+				
+			}
+		}
+		
+
 	};//end of SavedRoute function.
 
 	//changin the marker position
 	$scope.geocodeAddress = function (geocoder, map, address) {		
-		console.log("geocodeAddress ADDRESS", address);
+		//console.log("geocodeAddress ADDRESS", address);
 		//pushing address key into the geocode from google to get coordinates and change the map.
 
 		geocoder.geocode( { 'address': address}, function(results, status) {
@@ -165,16 +184,16 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 				//** If the address matches the origin input, assign the current position to the origin.
 					if (origin2 === address){
 						origin1	= $scope.markersArray[i].position;
-						console.log("geocoderAddress origin1", origin1);
+						//console.log("geocoderAddress origin1", origin1);
 					//** If the address matched the destination, assign the current position to the destination.
 					} if (destinationA === address) {
 						destinationB = $scope.markersArray[i].position;
-						console.log("geocoderAddress destinationA", destinationA);
+						//console.log("geocoderAddress destinationA", destinationA);
 					}
 				}//end of loop
 				for (var i = 0; i < 2; i++){
 					counter += i;
-					console.log("Geocoder COUNTER", counter);
+					//console.log("Geocoder COUNTER", counter);
 				}
 			//** if geocoder does not have address, give an error.	
 	    	}else {
@@ -213,12 +232,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 			}
 		$scope.$apply();
 		});
+
 	};
 
 
 		
 	//** Getting time and distance from geocodeAddress origin and destination format.
-	$scope.GetMatrix = function() {	
+	$scope.GetMatrix = function() {
 		console.log("this is GetMatrix");
 		//** need both origin and destination to be defined first.
 		// console.log("GetMatrix origin1", origin1);
@@ -266,16 +286,29 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
       	 		// $scope.outputDiv += originList[i] + ' to ' + destinationList[j] +
        	  		//': ' + results[j].distance.text + ' in ' +
         	    //results[j].duration.text + '<br>';
-        	 	$scope.outputDiv = results[j].duration.text;
-       			// console.log("outputDiv", $scope.outputDiv);
-       			console.log("results[j].duration", results[j].duration.text);
+        	    
+        	 	// $scope.timeDuration = results[j].duration.text;
+
+        	 	//outputting to specific route.
+        	 	
+
+        	 	console.log("$scope.routes.currentRoute.timeDuration", $scope.routes.currentRoute.timeDuration);
+        	 	$scope.routes.currentRoute.timeDuration = results[j].duration.text;
+        	 	
+       		
        			//console.log(originList[i] + ' to ' + destinationList[j] + ': ' + results[j].distance.text + ' in ' + results[j].duration.text);
-   				}
-			}
-			//the scope needs to be applied so the outputDiv can show up because of the nested forloops.
-   			$scope.$apply();
-			});
-		};//end of function
+   			}//end of loop
+		}//end of loop
+		//emptying markerArray.
+		for (var i = 0; i < $scope.markersArray.length; i++) {
+   					$scope.markersArray[i].setMap(null);
+  				}
+		$scope.markersArray = [];
+		console.log("$scope.markersArray", $scope.markersArray);
+		//the scope needs to be applied so the outputDiv can show up because of the nested forloops.
+   		$scope.$apply();
+		});//anonymous function
+	};//end of function
 
 
 	//Saving to firebase
@@ -289,22 +322,19 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
 		// Getting user info
 		var userId = ref.getAuth().uid;
-		console.log("route name", routeName);
+		//console.log("route name", routeName);
 		//pushing route info to firebase
 		routesRef.push({
-				"routeName": routeName,
-				"userId": userId,
-				"origin2": origin2,
-				"destinationA": destinationA,
-			});
-		//console.log("userId", ref.getAuth().uid);
-		//console.log("in firebase", origin2, destinationA);
+			"routeName": routeName,
+			"userId": userId,
+			"origin2": origin2,
+			"destinationA": destinationA,
+			"timeDuration": ""
+		});
+	//console.log("userId", ref.getAuth().uid);
+	//console.log("in firebase", origin2, destinationA);
 			
 	};
-
-	//Loading from firebase
-	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
-	$scope.routes = $firebaseArray(ref);
 
 
 	//Deleting from firebase
