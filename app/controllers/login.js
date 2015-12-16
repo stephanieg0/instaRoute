@@ -20,16 +20,38 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
 
         }).catch(function(error){
           console.log("authentication failed:", error);
-          });
-
-
-  		
+          }); 		
 
   };//end of facebookLogin
 
 
+  $scope.SignUp = function () {
+    var userName = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var ref = new Firebase("https://commutealert.firebaseio.com/users");
+    console.log("button works");
 
-
+    ref.createUser({
+      "email"   : email,
+      "password": password
+    }, function(error, userData) {
+      if (error) {
+        console.log("Error creating user:", error);
+      } else {
+        var ref = new Firebase("https://commutealert.firebaseio.com/users/" + userData.uid);
+        console.log("https://commutealert.firebaseio.com/users/" + userData.uid);
+        console.log("Successfully created user account with uid:", userData.uid);
+        ref.set({
+          "uid": userData.uid,
+          "name": userName
+        });
+        //if the auth is successfull, relocate to the home url.
+        $location.url("/commuteAlert/home");
+        }
+      });
+      
+  };//end SignUp
 
 }]);//end of controller
 

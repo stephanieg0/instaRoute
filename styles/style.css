@@ -15,7 +15,6 @@
 /*html, body { height: 100%; margin: 0; padding: 0; }*/
 .mapHidden {
 	visibility: hidden;
-	height: 50px;
 }
 
 #map-container {
@@ -23,11 +22,15 @@
 	height: 250px;
 	width: 600px;
 }
+
 #map { height: 100%; }
+
+
 
 input {
 	width: 500px;
 }
+
 
 
 /* Sign in Section */
@@ -38,6 +41,10 @@ input {
 }
 h2 {
 	text-align: center;
+}
+#login-partial{
+	position: relative;
+	top: -200px;
 }
 
 /*Routes in home*/

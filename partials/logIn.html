@@ -1,8 +1,17 @@
-<div>
+<div id="login-partial">
 	<h2>Commute Alert</h2>
+
 	<form class="form-signin">
 		<button class="btn btn-block btn-social btn-facebook" ng-click="facebookLogin()">
     		<span class="fa fa-facebook">f</span> Continue with Facebook
   		</button>
   	</form>
+  	<div>----- or ------</div>
+  	<form>
+  		<input type="text" name="name" class="form-control" id="username" placeholder="User Name">
+		<input type="email" name="email" class="form-control" id="email" placeholder="Enter Email Address">
+		<input type="password" name="password" class="form-control" id="password" placeholder="Enter Password">
+		<button type="button" class="btn" ng-click="SignUp()">Sign up</button>
+		<button type="button" class="btn">Log in</button>
+	</form>
 </div>

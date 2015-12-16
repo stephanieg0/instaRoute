@@ -310,6 +310,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
   		$scope.directionsDisplay = new google.maps.DirectionsRenderer;
   		$scope.directionsDisplay.setMap(map);
 
+  		var trafficLayer = new google.maps.TrafficLayer();
+  		trafficLayer.setMap(map);
+
   		//user logged out. 
 		ref.unauth();
 	};
