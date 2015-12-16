@@ -1,5 +1,5 @@
-app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q", 
-	function ($scope, $window, $firebaseArray, $q) { 
+app.controller("apiController", ["$scope", "$window", "$firebaseArray", 
+	function ($scope, $window, $firebaseArray) { 
 
 	//Loading from firebase and defining scope route for html binding
 	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
@@ -54,6 +54,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 		//distance matrix instance to get time from origin to destination.
 		service = new google.maps.DistanceMatrixService;		
 		console.log("initMap $scope.directionsService", $scope.directionsService);
+		var trafficLayer = new google.maps.TrafficLayer();
+  		trafficLayer.setMap(map);
 	};
 
 	//setting autocomplete function for input field.
@@ -211,30 +213,31 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	    travelMode: google.maps.TravelMode.DRIVING,
 	    unitSystem: google.maps.UnitSystem.METRIC,
 	    avoidHighways: false,
-	    avoidTolls: false
-	  }, function(response, status) {
-	    if (status !== google.maps.DistanceMatrixStatus.OK) {
-	      alert('Error was: ' + status);
-	    } else {
-	    	//** new list/format of the origin and destination.
-	      	var originList = response.originAddresses;
-	      	var destinationList = response.destinationAddresses;
-	      	// console.log("originList", originList);
-	      	// console.log("destinationList", destinationList);
+	    avoidTolls: false,
+
+	  	}, function(response, status) {
+	    	if (status !== google.maps.DistanceMatrixStatus.OK) {
+	      		alert('Error was: ' + status);
+	    	} else {
+	    		//** new list/format of the origin and destination.
+	      		var originList = response.originAddresses;
+	      		var destinationList = response.destinationAddresses;
+	      		// console.log("originList", originList);
+	      		// console.log("destinationList", destinationList);
 	    	}//end of else
 		
-		//Origin List
-		//** the new origin format is an array. 
-		for (var i = 0; i < originList.length; i++) {
-			//Getting distance and duration for origin and destination
-    		var results = response.rows[i].elements;
-    		//console.log("results", results);
-    		geocoder.geocode({'address': originList[i]}, function(results, status) {
+			//Origin List
+			//** the new origin format is an array. 
+			for (var i = 0; i < originList.length; i++) {
+				//Getting distance and duration for origin and destination
+    			var results = response.rows[i].elements;
+    			//console.log("results", results);
+    			geocoder.geocode({'address': originList[i]}, function(results, status) {
     			//geocoder.geocode needs to pass two arguments otherwise, it will error.
-    		});    		
+    			});    		
     		
-    		//Destination List
-    		for (var j = 0; j < results.length; j++) {
+    			//Destination List
+    			for (var j = 0; j < results.length; j++) {
 
       			geocoder.geocode({'address': destinationList[j]}, function(results, status) {
       				//geocoder.geocode needs to pass two arguments otherwise, it will error.
@@ -244,25 +247,23 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	        	console.log("$scope.routes.currentRoute.timeDuration", $scope.routes.currentRoute.timeDuration);
 	        	$scope.routes.currentRoute.timeDuration = results[j].duration.text;
       			        	 	        		
-   			}//end of loop
-		}//end of loop
+   				}//end of loop
+			}//end of loop
 		//emptying markerArray.
 		for (var i = 0; i < $scope.markersArray.length; i++) {
-   					$scope.markersArray[i].setMap(null);
-  				}
+   			$scope.markersArray[i].setMap(null);
+  			}
 		$scope.markersArray = [];
 		console.log("$scope.markersArray", $scope.markersArray);
 		//the scope needs to be applied so the outputDiv can show up because of the nested forloops.
    		$scope.$apply();
-		});//anonymous function
+		});//response, status function.
 	};//end of function
 
 
 	//Saving to firebase
 	$scope.SaveRoute = function() {
-		document.getElementById('route-name').value = "";
-		document.getElementById('to').value = "";
-		document.getElementById('from').value = "";
+		
 		//console.log("origin1", origin1);
 		//console.log("destinationB", destinationB);
 		//get the html element input for the autocomplete
@@ -282,7 +283,10 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 			"timeDuration": "",
 			"routeSummary": ""
 		});
-			
+		//clearing input values after clicking "create route".
+		document.getElementById('route-name').value = "";
+		document.getElementById('to').value = "";
+		document.getElementById('from').value = "";	
 	};
 
 
@@ -293,7 +297,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "$q",
 	};
 
 	//LogOut
-	$scope.LogOut = function() {
+	$scope.LogOut = function() {		
+		//deafult map options to reset the map.
 		mapOptions =  {
 	    	center: myLatLng,
 	    	zoom: 10
