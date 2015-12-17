@@ -1,5 +1,5 @@
-app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", "$location", "$rootScope",
-	function ($scope, $firebaseArray, $firebaseAuth, $location, $rootScope) { 
+app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", "$location", "$rootScope", "getUid",
+	function ($scope, $firebaseArray, $firebaseAuth, $location, $rootScope, idFactory) { 
 	//the map is hidden.
   $rootScope.loggedin = true;
   //error messages to display in the page.
@@ -21,7 +21,9 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         $location.url("/commuteAlert/home");
         //displaying the map after loggin in.
         $rootScope.loggedin = false;
-
+        //sending current user data to factory to use later.
+        idFactory.addUid(authData);
+        
         }).catch(function(error){
           console.log("authentication failed:", error);
           }); 		
@@ -59,7 +61,9 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         ref.set({
           "uid": userData.uid,
           "name": userName
-        });       
+        }); 
+        //sending current user data to factory to use later.
+        idFactory.addUid(authData);      
         }
         $scope.$apply();
       });      
@@ -93,6 +97,8 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         //clear error message.
         $scope.LogInErrorMessage = "";
         console.log("Authenticated successfully with payload:", authData);
+        //sending current user data to factory to use later.
+        idFactory.addUid(authData);
       }
         $scope.$apply();
       });

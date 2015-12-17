@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngRoute', 'firebase']);
+var app = angular.module("app", ['ngRoute', 'firebase', 'ngCookies']);
 
 //route provider contains paths to controllers to bind to Dom.
 app.config(['$routeProvider', function ($routeProvider) {

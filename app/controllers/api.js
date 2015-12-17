@@ -1,22 +1,36 @@
-app.controller("apiController", ["$scope", "$window", "$firebaseArray", 
-	function ($scope, $window, $firebaseArray) { 
+app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid", '$cookies',
+	function ($scope, $window, $firebaseArray, idFactory, $cookies) { 
 
-	console.log("this is running");
-	//Loading from firebase and defining scope route for html binding
+	//getting back the current user data from factory after log in.
+	$scope.userData = idFactory.getUid();
+	$scope.userId = $scope.userData.uid;
+
+  	// Setting a cookie to remember user id upon page refresh.
+  	//if user id is falsy(which it will be when page is refreshed), 
+  	//then get the cookie, which has the id saved.
+  	if (!$scope.userId) { 
+  		$scope.userId = $cookies.get('userId');
+  	} else {
+  		//else, if user id "is" defined, then redefine the cookie to the current user id.
+  		$cookies.put('userId', $scope.userId);
+  	}
+  	
+	//Loading routes from firebase and defining scope route for html binding.
 	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
-	//$scope.userId = ref.getAuth().uid;
-
 	$scope.routes = $firebaseArray(ref);
+	//console.log("$scope.routes", $scope.routes);
 	$scope.routes.currentRoute = {};
-	console.log("$scope.userId", $scope.userId);
+
 	//variables for the inputHTML.
 	var fromInput = "";
 	var toInput = "";
+
 	//variables for google instances and objects.
 	$scope.map = "";
 	var mapOptions = {}
 	$scope.geocoder = "";
 	$scope.service = "";
+
 	//variable to get whole address for geocoder.
 	var address = "";
 	//array to have more than one marker in the map.
@@ -265,7 +279,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 	};//end of function
 
 
-	//Saving to firebase
+	//Saving a route to firebase.
 	$scope.SaveRoute = function() {
 		
 		//console.log("origin1", origin1);
@@ -273,11 +287,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		//get the html element input for the autocomplete
 		var routeName = document.getElementById('route-name').value;
 		//firebase refrences to correct path
-		var ref = new Firebase("https://commutealert.firebaseio.com/users");
 		var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
-		// Getting user info
-		$scope.userId = ref.getAuth().uid;
-		console.log("userId", userId);
+	
 		//pushing route info to firebase
 		routesRef.push({
 			"routeName": routeName,
