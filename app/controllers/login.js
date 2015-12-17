@@ -2,7 +2,11 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
 	function ($scope, $firebaseArray, $firebaseAuth, $location, $rootScope) { 
 	//the map is hidden.
   $rootScope.loggedin = true;
+  //error messages to display in the page.
+  $scope.SignUpErrorMessage = "";
+  $scope.LogInErrorMessage = "";
 
+  //facebook log in/sign up.
 	$scope.facebookLogin = function() {
     //firebase reference to app url.
     var ref = new Firebase("https://commutealert.firebaseio.com/users");
@@ -24,34 +28,75 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
 
   };//end of facebookLogin
 
-
-  $scope.SignUp = function () {
+  //Sign up for first time user.
+  $scope.SignUp = function() {
+    //user inputs.
     var userName = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
     var ref = new Firebase("https://commutealert.firebaseio.com/users");
-    console.log("button works");
-
+    //auth reference to firebaseAuth. For Home page to recognize the user id.
+    var auth = $firebaseAuth(ref);
+    
     ref.createUser({
       "email"   : email,
       "password": password
     }, function(error, userData) {
       if (error) {
         console.log("Error creating user:", error);
+        $scope.SignUpErrorMessage = "User account already exists."
+
       } else {
+        $scope.SignUpErrorMessage = "";
+        //if the auth is successfull, relocate to the home url.
+        $location.url("/commuteAlert/home");
+        //display map.
+        $rootScope.loggedin = false;
+
         var ref = new Firebase("https://commutealert.firebaseio.com/users/" + userData.uid);
-        console.log("https://commutealert.firebaseio.com/users/" + userData.uid);
         console.log("Successfully created user account with uid:", userData.uid);
+        //set user and keys in firebase
         ref.set({
           "uid": userData.uid,
           "name": userName
-        });
+        });       
+        }
+        $scope.$apply();
+      });      
+  };//end SignUp
+
+  //Sign in for existing user.
+  $scope.Signin = function() {
+    $scope.SignUpErrorMessage = "";
+    //user inputs.
+    var userName = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    //firebase correct path.
+    var ref = new Firebase("https://commutealert.firebaseio.com/users");
+    //auth reference to firebaseAuth. For Home page to recognize the user id.
+    var auth = $firebaseAuth(ref);
+    //Authentication with password.
+    ref.authWithPassword({
+      "email"   : email,
+      "password": password
+    }, function(error, authData) {
+      if (error) {
+        //error message displayed on the page.
+        $scope.LogInErrorMessage = "Please create an account";
+        console.log("Login Failed!", error);
+      } else {
         //if the auth is successfull, relocate to the home url.
         $location.url("/commuteAlert/home");
-        }
+        //display map.
+        $rootScope.loggedin = false;
+        //clear error message.
+        $scope.LogInErrorMessage = "";
+        console.log("Authenticated successfully with payload:", authData);
+      }
+        $scope.$apply();
       });
-      
-  };//end SignUp
+  };
 
 }]);//end of controller
 

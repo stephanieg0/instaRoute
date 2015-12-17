@@ -1,10 +1,14 @@
 app.controller("apiController", ["$scope", "$window", "$firebaseArray", 
 	function ($scope, $window, $firebaseArray) { 
 
+	console.log("this is running");
 	//Loading from firebase and defining scope route for html binding
 	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
+	//$scope.userId = ref.getAuth().uid;
+
 	$scope.routes = $firebaseArray(ref);
 	$scope.routes.currentRoute = {};
+	console.log("$scope.userId", $scope.userId);
 	//variables for the inputHTML.
 	var fromInput = "";
 	var toInput = "";
@@ -53,7 +57,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		geocoder = new google.maps.Geocoder();
 		//distance matrix instance to get time from origin to destination.
 		service = new google.maps.DistanceMatrixService;		
-		console.log("initMap $scope.directionsService", $scope.directionsService);
+		
 		var trafficLayer = new google.maps.TrafficLayer();
   		trafficLayer.setMap(map);
 	};
@@ -269,15 +273,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 		//get the html element input for the autocomplete
 		var routeName = document.getElementById('route-name').value;
 		//firebase refrences to correct path
-		var ref = new Firebase("https://commutealert.firebaseio.com/routes");
+		var ref = new Firebase("https://commutealert.firebaseio.com/users");
 		var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
 		// Getting user info
-		var userId = ref.getAuth().uid;
-		//console.log("route name", routeName);
+		$scope.userId = ref.getAuth().uid;
+		console.log("userId", userId);
 		//pushing route info to firebase
 		routesRef.push({
 			"routeName": routeName,
-			"userId": userId,
+			"userId": $scope.userId,
 			"origin2": origin2,
 			"destinationA": destinationA,
 			"timeDuration": "",
@@ -315,8 +319,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray",
 
   		//user logged out. 
 		ref.unauth();
-	};
-		
+	};		
+
+
 			
 }]);//end of controller
 

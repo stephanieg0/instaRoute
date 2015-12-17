@@ -12,6 +12,7 @@
 		<input type="email" name="email" class="form-control" id="email" placeholder="Enter Email Address">
 		<input type="password" name="password" class="form-control" id="password" placeholder="Enter Password">
 		<button type="button" class="btn" ng-click="SignUp()">Sign up</button>
-		<button type="button" class="btn">Log in</button>
+		<button type="button" class="btn" ng-click="Signin()">Log in</button>
 	</form>
+	<div>{{SignUpErrorMessage}}{{LogInErrorMessage}}</div>
 </div>
