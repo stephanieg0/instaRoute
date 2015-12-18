@@ -51,7 +51,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   	//Id from firebase to be defined.
   	$scope.currentRouteID = "";
 
-
+  	//based on the time set by the user.
+  	var DepartureTimeInput = [];
 
 	//initializing the map when app loads(part of the script tag in html). 
 	//Deafult to Nashville
@@ -343,14 +344,14 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		console.log("el", el);
 		//getting the specific value of current selected.
 		for (var i = 0; i < el.length; i++){
-			var DepartureTimeInput = el[i].value;
+			var currentTimeValue = el[i].value;
+			DepartureTimeInput.push(currentTimeValue);
 			console.log("DepartureTimeInput", DepartureTimeInput);
-
 		}
 	};
 
 	//Getting time
-	var DepartureTime = "7:54:0";
+	//var DepartureTime = "7:54:0";
 	var currentTime = new Date();
 	var hours = currentTime.getHours();
 	var minutes = currentTime.getMinutes();
@@ -364,11 +365,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	
 	var timeString = hours + ":" + minutes + ":" + seconds;
 	//console.log("timeString", timeString);
-	var t = setTimeout($scope.SetTime, 500);
+	// var t = setTimeout($scope.SetTime, 500);
 
-	if (DepartureTime === timeString){
-		alert("hello");
-	}
+	// if (DepartureTimeInput === timeString){
+	// 	alert("hello");
+	// }
 	
 		
 
