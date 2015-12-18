@@ -25,7 +25,7 @@
 				<div>summary: {{route.routeSummary}}</div>
 			</div>
 			<div class="departure-time">
-				<input type="text" class="timeInput {{$index}}" placeholder="00:00">
+				<input type="text" class="timeInput {{$index}}" placeholder="00:00" maxlength="5">
 				<button ng-click="DepartureTime($index, route.origin2, route.destinationA)">Save departure time</button>
 			</div>
 		</div>
