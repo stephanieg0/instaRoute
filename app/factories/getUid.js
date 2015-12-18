@@ -1,7 +1,7 @@
 app.factory("getUid", [function () {
 
   var userData = '';
- 
+  
   return {
     //getting user data after log in from login.js
     addUid: function(authData) {

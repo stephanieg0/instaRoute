@@ -19,12 +19,15 @@
 			<h4>{{route.routeName}}</h4>
 			<div class="output-origin">O - {{route.origin2}}</div>
 			<div class="output-destination">D - {{route.destinationA}}</div>
-			<button class="get-time-button" ng-click="SavedRouteFirebase(route.origin2, route.destinationA)">Get Time</button>
+			<button class="get-time-button" ng-click="GetTime(route.origin2, route.destinationA)">Get Time</button>
 			<div id="{{currentRouteID}}">
 				<div>time: {{route.timeDuration}}</div>
 				<div>summary: {{route.routeSummary}}</div>
 			</div>
-			
+			<div class="departure-time">
+				<input type="text" class="timeInput {{$index}}" placeholder="00:00">
+				<button ng-click="DepartureTime($index, route.origin2, route.destinationA)">Save departure time</button>
+			</div>
 		</div>
 	</div>
 </div>

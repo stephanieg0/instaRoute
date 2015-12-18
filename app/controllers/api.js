@@ -125,7 +125,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	//This is the saved individual route origin and destination info.
 	//*** I need to wait until origin has gone through the geocode address and give coordinates, 
 	//and then pass the destination.
-	$scope.SavedRouteFirebase = function(origin, destination) {	
+	$scope.GetTime = function(origin, destination) {	
 		//need to assign both origin and destination to address variable and pass it to geocoder.
 		origin2 = origin;
 		$scope.geocodeAddress(geocoder, map, origin);
@@ -332,8 +332,48 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		ref.unauth();
 	};		
 
+	//Getting departure time from user input.
+	$scope.DepartureTime = function(index, origin, destination){
+		//getting specific addresses to re-run.
+		origin2 = origin;
+		destinationA = destination;
+	
+		//getting class name by index.
+		var el = document.getElementsByClassName(index);
+		console.log("el", el);
+		//getting the specific value of current selected.
+		for (var i = 0; i < el.length; i++){
+			var DepartureTimeInput = el[i].value;
+			console.log("DepartureTimeInput", DepartureTimeInput);
 
-			
+		}
+	};
+
+	//Getting time
+	var DepartureTime = "7:54:0";
+	var currentTime = new Date();
+	var hours = currentTime.getHours();
+	var minutes = currentTime.getMinutes();
+	var seconds = currentTime.getSeconds();
+
+	if (hours > 12) {
+	    hours -= 12;
+	} else if (hours === 0) {
+	   hours = 12;
+	}
+	
+	var timeString = hours + ":" + minutes + ":" + seconds;
+	//console.log("timeString", timeString);
+	var t = setTimeout($scope.SetTime, 500);
+
+	if (DepartureTime === timeString){
+		alert("hello");
+	}
+	
+		
+
+
+
 }]);//end of controller
 
 
