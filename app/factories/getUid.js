@@ -9,7 +9,7 @@ app.factory("getUid", [function () {
       return userData;
     },
     getUid: function() {
-      console.log("factory userId :", userData);
+      //console.log("factory userId :", userData);
       return userData;
     }
   };

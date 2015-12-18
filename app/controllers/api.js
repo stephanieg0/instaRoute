@@ -1,5 +1,5 @@
-app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid", '$cookies',
-	function ($scope, $window, $firebaseArray, idFactory, $cookies) { 
+app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid", '$cookies', "departureTime", "getOrigin", "getDestination",
+	function ($scope, $window, $firebaseArray, idFactory, $cookies, timeFactory, originFactory, destinationFactory) { 
 
 	//getting back the current user data from factory after log in.
 	$scope.userData = idFactory.getUid();
@@ -51,8 +51,6 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   	//Id from firebase to be defined.
   	$scope.currentRouteID = "";
 
-  	//based on the time set by the user.
-  	var DepartureTimeInput = "";
 
 	//initializing the map when app loads(part of the script tag in html). 
 	//Deafult to Nashville
@@ -135,14 +133,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 		$scope.geocodeAddress(geocoder, map, destination);
 		
-		//getting the Selected/current Route in firebase.
+		//getting the Selected/current Route in firebase. If origin and destination match.
 		for (var i = 0; i < $scope.routes.length; i ++){
 			if($scope.routes[i].origin2 === origin && $scope.routes[i].destinationA === destination){
 				//specific id from firebase.
 				$scope.currentRouteID = $scope.routes[i].$id;
 				//specific route to determine time duration in distance Matrix output.
 				$scope.routes.currentRoute = $scope.routes[i];
-				//console.log("$scope.routes[i]", $scope.routes[i]);		
+				//console.log("$scope.routes[i]", $scope.routes[i]);
+				console.log("$scope.routes.currentRoute", $scope.routes.currentRoute);		
 			}
 		}		
 	};//end of SavedRoute function.
@@ -162,7 +161,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		            zoom: 10,
 		            mapTypeId: google.maps.MapTypeId.ROADMAP        
 	        	}));//end of Marker
-	        	console.log("$scope.markersArray in geocodeAddress", $scope.markersArray);
+	        	//console.log("$scope.markersArray in geocodeAddress", $scope.markersArray);
 				//** getting the position from orign and destination in any given order.
 				for (var i = 0; i < $scope.markersArray.length; i++) {
 				// console.log("loop markersArray", $scope.markersArray[i].position);
@@ -184,7 +183,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
       		if ($scope.markersArray.length === 2) {
      			$scope.GetMatrix();
      			$scope.calculateAndDisplayRoute($scope.directionsService, $scope.directionsDisplay);
-     			console.log("geocode $scope.directionsService", $scope.directionsService);
+     			//console.log("geocode $scope.directionsService", $scope.directionsService);
 			}
     	});//end of geocoder.geocode()
 			
@@ -203,7 +202,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		}, function(response, status) {
 			if (status === google.maps.DirectionsStatus.OK) {
 				$scope.directionsDisplay.setDirections(response);
-				console.log("response", response);
+				//console.log("response", response);
 				//console.log("response.routes[0].summary", response.routes[0].summary);
 			} else {
 		  		window.alert('Directions request failed due to ' + status);
@@ -273,7 +272,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
    			$scope.markersArray[i].setMap(null);
   			}
 		$scope.markersArray = [];
-		console.log("$scope.markersArray", $scope.markersArray);
+		//console.log("$scope.markersArray", $scope.markersArray);
 		//the scope needs to be applied so the outputDiv can show up because of the nested forloops.
    		$scope.$apply();
 		});//response, status function.
@@ -333,59 +332,64 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		ref.unauth();
 	};		
 
+
+	var timeString = "";
+	var stringValue = "";
+	//Live time.
+	$scope.SetTime = function() {	
+		//Getting time
+		//var formatReference = "7:54:0";
+		var currentTime = new Date();
+		var hours = currentTime.getHours();
+		var minutes = currentTime.getMinutes();
+		minutes = minutes > 9 ? minutes : '0' + minutes;
+		var seconds = currentTime.getSeconds();
+		//console.log("minutes", minutes);
+
+		if (hours > 12) {
+		    hours -= 12;
+		} else if (hours === 0) {
+		   hours = 12;
+		}
+		//concatenating hours, minutes and seconds.
+		timeString = hours + ":" + minutes + ":" + seconds;
+		var t = setTimeout($scope.SetTime, 500);
+		
+		//calling factory for the saved departure time and assigning it to stringValue.
+		stringValue = timeFactory.getTime();
+		//getting the specific origin from factory.
+		origin2 = originFactory.getOrigin();
+		//getting specific destination from factory.
+		destinationA = destinationFactory.getDestination();
+		//comparing stringValue to current time.
+		if (stringValue === timeString){
+			//alert("hello");
+			$scope.GetTime(origin2, destinationA);
+		}
+
+	};
+
 	//Getting departure time from user input.
 	$scope.DepartureTime = function(index, origin, destination){
 		//getting specific addresses to re-run.
 		origin2 = origin;
 		destinationA = destination;
-	
+
 		//getting class name by index.
 		var el = document.getElementsByClassName(index);
-		console.log("el", el);
+		//console.log("el", el);
+
 		//getting the specific value of current selected.
 		for (var i = 0; i < el.length; i++){
-			var currentTimeValue = el[i].value;
-			DepartureTimeInput = currentTimeValue.split("");
-			console.log("DepartureTimeInput", DepartureTimeInput);
-			
-
-			if (DepartureTimeInput[2] !== ":"){
-				DepartureTimeInput.splice(2, 0, ":");
-				console.log("DepartureTimeInput", DepartureTimeInput);
-			} if (DepartureTimeInput.length <= 3){
-				DepartureTimeInput.push("00");
-				console.log("DepartureTimeInput", DepartureTimeInput);
-			}
-			// if (DepartureTimeInput[0] === "0"){
-			// 	DepartureTimeInput.shift();
-			// 	console.log("DepartureTimeInput", DepartureTimeInput);
+			stringValue = el[i].value + ":0";
+			//console.log("stringValue", stringValue);
 		}
+		//sending stringValue to factory to store and call later.
+		timeFactory.addTime(stringValue);
+		originFactory.addOrigin(origin2);
+		destinationFactory.addDestination(destinationA);	
 	};
-
-	//Getting time
-	//var DepartureTime = "7:54:0";
-	var currentTime = new Date();
-	var hours = currentTime.getHours();
-	var minutes = currentTime.getMinutes();
-	var seconds = currentTime.getSeconds();
-
-	if (hours > 12) {
-	    hours -= 12;
-	} else if (hours === 0) {
-	   hours = 12;
-	}
-	
-	var timeString = hours + ":" + minutes + ":" + seconds;
-	//console.log("timeString", timeString);
-	// var t = setTimeout($scope.SetTime, 500);
-
-	// if (DepartureTimeInput === timeString){
-	// 	alert("hello");
-	// }
-	
 		
-
-
 
 }]);//end of controller
 
