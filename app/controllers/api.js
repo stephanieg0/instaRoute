@@ -263,8 +263,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
       			//if $scope.routes.currentRoute.timeDuration is found and equals to empty string, then assgin duration.	
 
 	        	console.log("$scope.routes.currentRoute.timeDuration", $scope.routes.currentRoute.timeDuration);
-	        	$scope.routes.currentRoute.timeDuration = results[j].duration.text;
-      			        	 	        		
+	        	$scope.routes.currentRoute.timeDuration = results[j].duration.text;		
    				}//end of loop
 			}//end of loop
 		//emptying markerArray.
