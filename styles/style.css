@@ -33,7 +33,7 @@ input {
 
 
 
-/* Sign in Section */
+/* Log in/Sign up Section */
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -43,9 +43,32 @@ h2 {
 	text-align: center;
 }
 #login-partial{
-	position: relative;
+	/*position: relative;*/
 	top: -200px;
+	/*margin: 0 15%;*/
 }
+#OR{
+	text-align: center;
+	color: gray;
+}
+.input-signin {
+	margin: 5px 0;
+}
+#sign-up {
+	display: block;
+	width: 300px;
+	margin: 10px 0;
+}
+#log-in {
+	width: 100px;
+	margin: 10px 35%;
+}
+#about {
+	top: -150px;
+	left: 50px;
+
+}
+
 
 /*Routes in home*/
 .route-container {

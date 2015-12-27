@@ -1,18 +1,25 @@
-<div id="login-partial">
-	<h2>Commute Alert</h2>
+<form id="about" class="col-sm-6">
+	<h4>A fast way to save your favorite routes</h4>
+	<h4>and check them on google maps</h4>
+</form>
+
+<div id="login-partial" class="col-sm-6">
+	<h2></h2>
 
 	<form class="form-signin">
 		<button class="btn btn-block btn-social btn-facebook" ng-click="facebookLogin()">
     		<span class="fa fa-facebook">f</span> Continue with Facebook
   		</button>
   	</form>
-  	<div>----- or ------</div>
-  	<form>
-  		<input type="text" name="name" class="form-control" id="username" placeholder="User Name">
-		<input type="email" name="email" class="form-control" id="email" placeholder="Enter Email Address">
-		<input type="password" name="password" class="form-control" id="password" placeholder="Enter Password">
-		<button type="button" class="btn" ng-click="SignUp()">Sign up</button>
-		<button type="button" class="btn" ng-click="Signin()">Log in</button>
+  	<div id="OR">----- or ------</div>
+  	<form class="form-signin">
+  		<input type="text" name="name" class="form-control input-signin" id="username" placeholder="User Name">
+		<input type="email" name="email" class="form-control input-signin" id="email" placeholder="Enter Email Address">
+		<input type="password" name="password" class="form-control input-signin" id="password" placeholder="Enter Password">
+		<button type="button" class="btn" id="sign-up" ng-click="SignUp()">Sign up</button>
+		<button type="button" class="btn" id="log-in" ng-click="Signin()">Log in</button>
 	</form>
 	<div>{{SignUpErrorMessage}}{{LogInErrorMessage}}</div>
+	
 </div>
+
