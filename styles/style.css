@@ -49,8 +49,8 @@ h2 {
 	text-align: center;
 }
 .row-block {
-	position: relative;
-	top: -300px;
+	position: fixed;
+	top: 0;
 }
 #about-block {
 	height: 700px;
