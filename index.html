@@ -19,7 +19,7 @@
 				<div id="map-container" ng-class="{'mapHidden': loggedin}"><!--for resizing the map. loggedin is applied in the login.js to display the map after loggin in/look at css doc-->
 					<div id="map"></div><!--for api.js-->			
 				</div>
-				<div class="row" ng-view></div>	
+				<div class="row" ng-class="{'row-block': loggedin}" ng-view></div>	
 
 
 			</div>

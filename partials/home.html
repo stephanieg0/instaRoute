@@ -1,21 +1,21 @@
 <div class="route-container col-sm-3">
 	<div class="address-inputs">
-		<input type="text" id="route-name" placeholder="Route Name">
+		<input type="text" id="route-name" class="form-control" placeholder="Route Name">
 		<div>
-			<input type="text" id="from" class="controls" placeholder="Origin" ng-model="inputFrom" ng-keypress="placesFrom($event)">
+			<input type="text" id="from" class="controls form-control" placeholder="Origin" ng-model="inputFrom" ng-keypress="placesFrom($event)">
 		</div>
 		<div>
-			<input type="text" id="to" placeholder="Destination" ng-keypress="placesTo($event)">
+			<input type="text" id="to" class="form-control" placeholder="Destination" ng-keypress="placesTo($event)">
 		</div>
 	</div>
-	<button id="save-route-button" ng-click="SaveRoute()">Create Route</button>
+	<button id="save-route-button" class="btn btn-deafult" ng-click="SaveRoute()">Create Route</button>
 	<!--<div>time: {{outputDiv}}</div>-->
 </div>
 
 <div class="individual-route-container col-sm-3" ng-repeat="route in routes | filter: {userId: userId}">
 	<div ng-model="routes">
 		<div id="{{route.userId}}">
-			<button type="button" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
+			<button type="button" class="remove-button btn-deafult" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
 			<h4>{{route.routeName}}</h4>
 			<div class="output-origin">O - {{route.origin2}}</div>
 			<div class="output-destination">D - {{route.destinationA}}</div>

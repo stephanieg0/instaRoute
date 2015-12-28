@@ -1,8 +1,11 @@
+body{
+	background-color: #E8E8E8;
+}
 /*Navigation bar*/
 #navigation {
 	background-color: gray;
 	display: block;
-	height: 30px;
+	height: 40px;
 }
 #logout {
 	color: white;
@@ -25,8 +28,6 @@
 
 #map { height: 100%; }
 
-
-
 input {
 	width: 500px;
 }
@@ -42,10 +43,22 @@ input {
 h2 {
 	text-align: center;
 }
-#login-partial{
-	/*position: relative;*/
-	top: -200px;
-	/*margin: 0 15%;*/
+.row-block {
+	position: relative;
+	top: -300px;
+}
+#about-block {
+	height: 700px;
+	padding: 0;
+}
+#login-block{
+	background-color: white;
+	height: 700px;
+	margin: 0;
+	padding: 0;
+}
+.btn-facebook{
+	margin-top: 100px;
 }
 #OR{
 	text-align: center;
@@ -56,23 +69,19 @@ h2 {
 }
 #sign-up {
 	display: block;
-	width: 300px;
+	max-width: 330px;
 	margin: 10px 0;
 }
 #log-in {
-	width: 100px;
-	margin: 10px 35%;
+	max-width: 100px;
+	margin: 10px 30%;
 }
-#about {
-	top: -150px;
-	left: 50px;
 
-}
 
 
 /*Routes in home*/
 .route-container {
-	background-color: gray;
+	background-color: white;
 	width: 350px;
 	height: 300px;
 }
@@ -91,11 +100,11 @@ h2 {
 }
 #save-route-button {
 	margin: 30px 35%;
-	width: 100px;
+	width: 150px;
 }
 
 .individual-route-container {
-	background-color: gray;
+	background-color: white;
 	width: 350px;
 	height: 300px;
 }
@@ -107,4 +116,8 @@ h2 {
 .timeInput {
 	width: 100px;
 }
-
+.remove-button {
+	margin-top: 5px;
+	margin-left: 95%;
+	border-radius: 40px;
+}
