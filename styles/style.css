@@ -3,12 +3,15 @@ body{
 }
 /*Navigation bar*/
 #navigation {
-	background-color: gray;
+	background-color: white;
 	display: block;
-	height: 40px;
+	height: 50px;
+	box-shadow: 0 3px 5px gray;
 }
 #logout {
-	color: white;
+	color: black;
+	text-decoration: none;
+	margin: 0 10px;
 }
 
 .nav-hidden {
@@ -21,9 +24,11 @@ body{
 }
 
 #map-container {
-	margin: 10px 20%;
-	height: 250px;
-	width: 600px;
+	margin: 20px 20px;
+	height: 280px;
+	width: 1200px;
+	border: 10px solid white;
+	box-shadow: 0 2px 7px gray;
 }
 
 #map { height: 100%; }
@@ -87,19 +92,22 @@ h2 {
 }
 
 .address-inputs {
-	padding-top: 10px;
+	padding-top: 20px;
 }
 #route-name {
-	width: 300px;
+	width: 320px;
+	margin: 15px 0;
 }
 #from {
-	width: 300px;
+	width: 320px;
+	margin: 5px 0;
 }
 #to {
-	width: 300px;
+	width: 320px;
+	margin: 5px 0;
 }
-#save-route-button {
-	margin: 30px 35%;
+#create-route-button {
+	margin: 40px 85px;
 	width: 150px;
 }
 
@@ -110,7 +118,9 @@ h2 {
 }
 
 .col-sm-3 {
-	margin: 15px 15px;
+	margin: 15px 30px 15px 40px;
+	box-shadow: 0 2px 7px gray;
+	border-radius: 5px;
 }
 
 .timeInput {
@@ -118,6 +128,14 @@ h2 {
 }
 .remove-button {
 	margin-top: 5px;
-	margin-left: 95%;
-	border-radius: 40px;
+	margin-left: 94%;
+	width: 30px;
+	height: 25px;
+	padding: 0 6.5px;
+	background-color: white;
+}
+.glyphicon-remove{
+	width: 1px;
+	height: 1px;
+	margin-right: 50px;
 }

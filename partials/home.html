@@ -8,14 +8,14 @@
 			<input type="text" id="to" class="form-control" placeholder="Destination" ng-keypress="placesTo($event)">
 		</div>
 	</div>
-	<button id="save-route-button" class="btn btn-deafult" ng-click="SaveRoute()">Create Route</button>
+	<button id="create-route-button" class="btn btn-success" ng-click="SaveRoute()">Create Route</button>
 	<!--<div>time: {{outputDiv}}</div>-->
 </div>
 
 <div class="individual-route-container col-sm-3" ng-repeat="route in routes | filter: {userId: userId}">
 	<div ng-model="routes">
 		<div id="{{route.userId}}">
-			<button type="button" class="remove-button btn-deafult" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
+			<button type="button" class="remove-button btn btn-deafult" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
 			<h4>{{route.routeName}}</h4>
 			<div class="output-origin">O - {{route.origin2}}</div>
 			<div class="output-destination">D - {{route.destinationA}}</div>
