@@ -5,14 +5,18 @@
 		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
 		<!--bootstrap facebook link-->
 		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap-social/bootstrap-social.css">	
-
+		<!--google font -->
+		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+		<!--My css-->
 		<link rel="stylesheet" type="text/css" href="styles/style.css">
-        <title>Commute Alert</title>
+        <title>instaRoute</title>
 	</head>
 	<body ng-app="app">
 		<section ng-controller="apiController" data-ng-init="SetTime()">
-		<nav id="navigation" ng-class="{'nav-hidden': loggedin}"><!--Nav bar shows after loggein function runs-->
-			<a href="#/commuteAlert/login" id="logout" ng-click="LogOut()">log out</a>
+		<nav id="navigation" ng-class="{'nav-hidden': loggedin}"><!--Nav bar shows after loggedin function runs-->
+			<p id="nav-logo">instaRoute</p>
+			<a href="#/commuteAlert/login" id="logout" ng-click="LogOut()">Log out</a>
 		</nav>
 			<div class="container-fluid">
 
@@ -32,10 +36,7 @@
 		<script src="lib/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
 		<!--key/library for google maps-->
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUWcwmKcS5LkAvrIX0jFqSnHF4k7iOVno&callback=initMap&libraries=places"></script>
-
-		<!--<script async defer src="https://maps.googleapis.com/maps/api/js?client=128831179995-2t73fvd8dt68vha4muomfsv8gvgalar0.apps.googleusercontent.com&v=3.22&callback=initMap&libraries=places"></script>
-	 	<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>-->
+		
 
 		<!--Js files-->
 		<script src="app/app.js"></script>

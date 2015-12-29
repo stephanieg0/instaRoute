@@ -1,5 +1,6 @@
 body{
 	background-color: #E8E8E8;
+	font-family: 'Montserrat', sans-serif;
 }
 /*Navigation bar*/
 #navigation {
@@ -9,13 +10,23 @@ body{
 	box-shadow: 0 3px 5px gray;
 }
 #logout {
-	color: black;
+	color: #333333;
 	text-decoration: none;
-	margin: 0 10px;
+	margin: 25px 10px;
+	float: right;
+}
+#logout:hover {
+	color: gray;
 }
 
 .nav-hidden {
 	visibility: hidden;
+}
+#nav-logo {
+	float: left;
+	font-family: 'Lobster', cursive;
+	font-size: 2em;
+	padding: 10px 10px;
 }
 /* Map Section */
 /*html, body { height: 100%; margin: 0; padding: 0; }*/
@@ -48,6 +59,18 @@ input {
 h2 {
 	text-align: center;
 }
+h3 {
+	position: absolute;
+	color: white;
+	margin: 180px 100px;
+}
+h1 {
+	font-family: 'Lobster', cursive;
+	font-size: 4em;
+	position: absolute;
+	color: white;
+	margin: 100px 100px;
+}
 .row-block {
 	position: fixed;
 	top: 0;
@@ -63,7 +86,7 @@ h2 {
 	padding: 0;
 }
 .btn-facebook{
-	margin-top: 100px;
+	margin-top: 150px;
 }
 #OR{
 	text-align: center;
@@ -79,12 +102,15 @@ h2 {
 }
 #log-in {
 	max-width: 100px;
-	margin: 10px 30%;
+	margin: 10px 35%;
 }
 
 
 
 /*Routes in home*/
+h4 {
+	margin-top: 0;
+}
 .route-container {
 	background-color: white;
 	width: 350px;
@@ -121,6 +147,7 @@ h2 {
 	margin: 15px 30px 15px 40px;
 	box-shadow: 0 2px 7px gray;
 	border-radius: 5px;
+	color: #333333;
 }
 
 .timeInput {
