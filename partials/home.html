@@ -19,14 +19,15 @@
 			<h4>{{route.routeName}}</h4>
 			<div class="output-origin">O - {{route.origin2}}</div>
 			<div class="output-destination">D - {{route.destinationA}}</div>
-			<button class="get-time-button" ng-click="GetTime(route.origin2, route.destinationA)">Get Route</button>
 			<div id="{{currentRouteID}}">
 				<div>Time: {{route.timeDuration}}</div>
 				<div>Summary: {{route.routeSummary}}</div>
 			</div>
+			<button class="get-route-button" ng-click="GetTime(route.origin2, route.destinationA)">Get Route</button>
 			<div class="departure-time">
 				<input type="text" class="timeInput {{$index}}" placeholder="00:00" maxlength="5" ng-model="stringValue">
-				<button ng-click="DepartureTime($index, route.origin2, route.destinationA)">Save departure time</button>
+				<button class="save-departuretime-button" ng-click="DepartureTime($index, route.origin2, route.destinationA)">Save</button>
+				<p class="departuretime-description">Get a window alert at departure time with your route information.</p>
 			</div>
 		</div>
 	</div>
