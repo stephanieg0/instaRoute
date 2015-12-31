@@ -35,7 +35,7 @@ body{
 }
 
 #map-container {
-	margin: 20px 20px;
+	margin: 10px 20px 20px 20px;
 	height: 280px;
 	width: 1200px;
 	border: 10px solid white;
@@ -167,6 +167,7 @@ h1 {
 
 .fa-car {
 	padding: 7px 10px;
+	font-size: 18px;
 }
 .output-origin {
 	margin: 0 10px;
@@ -182,10 +183,12 @@ h1 {
 .details-text {
 	text-align: center;
 	margin: 0;
+	color: #008AE6;
 }
 .getBestRoute-text {
 	display: inline;
 	padding: 0 20px;
+	margin-top: 25px;
 	font-size: 18px;
 }
 .get-route-button {
@@ -211,7 +214,7 @@ h1 {
 }
 .departuretime-description{
 	display: inline;
-	padding: 0 10px;
+	padding: 0 55px;
 	font-size: 16px;
 }
 .timeInput {
@@ -221,11 +224,16 @@ h1 {
 	text-align: center;
 	border-radius: 3px;
 	font-size: 20px;
+	margin: 0 5px;
 }
 .save-departuretime-button {
-	width: 60px;
+	width: 30px;
 	height: 30px;
 	margin-bottom: 8px;
+	padding: 0;
+}
+.fa-clock-o {
+	font-size: 20px;
 }
 .remove-button {
 	margin-top: 5px;

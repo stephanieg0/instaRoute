@@ -30,7 +30,7 @@
 				<i class="fa fa-car"></i>
 				<div class="summary">{{route.routeSummary}}</div>
 				<div class="timeDuration">{{route.timeDuration}}</div>
-				<p class="details-text">Details</p>
+				<p class="details-text">DETAILS</p>
 			</div>
 			<div>
 				<div class="getBestRoute-text">Get best route now</div>	
@@ -38,9 +38,9 @@
 			</div>
 			<p class="or-text">------------------------------------------- or ------------------------------------------</p>
 			<div class="departure-time">
-				<p class="departuretime-description">Send it to me later</p>
+				<p class="departuretime-description">Tell me later</p>
 				<input type="text" class="timeInput {{$index}}" placeholder="00:00" maxlength="5" ng-model="stringValue">
-				<button class="save-departuretime-button btn btn-info" ng-click="DepartureTime($index, route.origin2, route.destinationA)">Save</button>
+				<button class="save-departuretime-button btn btn-info fa fa-clock-o" ng-click="DepartureTime($index, route.origin2, route.destinationA)"></button>
 			</div>
 		</div>
 	</div>
