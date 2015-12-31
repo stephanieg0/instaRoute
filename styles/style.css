@@ -35,7 +35,7 @@ body{
 }
 
 #map-container {
-	margin: 20px 20px;
+	margin: 10px 20px 20px 20px;
 	height: 280px;
 	width: 1200px;
 	border: 10px solid white;
@@ -108,21 +108,24 @@ h1 {
 
 
 /*Routes in home*/
-h4 {
-	margin-top: 0;
-}
 .route-container {
 	background-color: white;
 	width: 350px;
-	height: 300px;
+	height: 350px;
 }
 
 .address-inputs {
 	padding-top: 20px;
 }
-#route-name {
-	width: 320px;
-	margin: 15px 0;
+#origin-title {
+	display: inline;
+	width: 150px;
+	margin: 0 0 20px 0;
+}
+#destination-title {
+	display: inline;
+	width: 150px;
+	margin: 0 0 20px 0;
 }
 #from {
 	width: 320px;
@@ -133,14 +136,17 @@ h4 {
 	margin: 5px 0;
 }
 #create-route-button {
-	margin: 40px 85px;
-	width: 150px;
+	margin: 40px 65px;
+	width: 190px;
+	height: 40px;
+	font-size: 16px;
 }
 
 .individual-route-container {
 	background-color: white;
 	width: 350px;
-	height: 300px;
+	height: 350px;
+	padding: 0;
 }
 
 .col-sm-3 {
@@ -148,14 +154,90 @@ h4 {
 	box-shadow: 0 2px 7px gray;
 	border-radius: 5px;
 	color: #333333;
+	font-family: 'Roboto', sans-serif;
+}
+.cardTitleBox {
+	padding-bottom: 10px;
+	border-bottom: 1px solid black;
+}
+.cardTitle { 
+	text-align: center;
+	margin: 0;
 }
 
-.timeInput {
+.fa-car {
+	padding: 7px 10px;
+	font-size: 18px;
+}
+.output-origin {
+	margin: 0 10px;
+}
+.output-destination {
+	margin: 0 10px;
+}
+.route-details {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;*/
+	height: 35px;
+}
+.details-text {
+	text-align: center;
+	margin: 0;
+	color: #008AE6;
+}
+.getBestRoute-text {
+	display: inline;
+	padding: 0 20px;
+	margin-top: 25px;
+	font-size: 18px;
+}
+.get-route-button {
 	width: 100px;
+	height: 60px;
+	margin: 10px 10px 0 10px;
+}
+.summary {
+	display: inline;
+	padding: 0 5px;
+}
+.timeDuration {
+	display: inline;
+	padding: 0 5px;
+}
+
+.or-text {
+	text-align: center;
+	margin: 0;
+}
+.departure-time {
+	margin-top: 10px;
+}
+.departuretime-description{
+	display: inline;
+	padding: 0 55px;
+	font-size: 16px;
+}
+.timeInput {
+	width: 60px;
+	height: 30px;
+	border: 1px solid black;
+	text-align: center;
+	border-radius: 3px;
+	font-size: 20px;
+	margin: 0 5px;
+}
+.save-departuretime-button {
+	width: 30px;
+	height: 30px;
+	margin-bottom: 8px;
+	padding: 0;
+}
+.fa-clock-o {
+	font-size: 20px;
 }
 .remove-button {
 	margin-top: 5px;
-	margin-left: 94%;
+	margin-left: 91%;
 	width: 30px;
 	height: 25px;
 	padding: 0 6.5px;
@@ -166,3 +248,4 @@ h4 {
 	height: 1px;
 	margin-right: 50px;
 }
+
