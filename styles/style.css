@@ -108,21 +108,24 @@ h1 {
 
 
 /*Routes in home*/
-h4 {
-	margin-top: 0;
-}
 .route-container {
 	background-color: white;
 	width: 350px;
-	height: 300px;
+	height: 350px;
 }
 
 .address-inputs {
 	padding-top: 20px;
 }
-#route-name {
-	width: 320px;
-	margin: 15px 0;
+#origin-title {
+	display: inline;
+	width: 150px;
+	margin: 0 0 20px 0;
+}
+#destination-title {
+	display: inline;
+	width: 150px;
+	margin: 0 0 20px 0;
 }
 #from {
 	width: 320px;
@@ -133,14 +136,17 @@ h4 {
 	margin: 5px 0;
 }
 #create-route-button {
-	margin: 40px 85px;
-	width: 150px;
+	margin: 40px 65px;
+	width: 190px;
+	height: 40px;
+	font-size: 16px;
 }
 
 .individual-route-container {
 	background-color: white;
 	width: 350px;
-	height: 300px;
+	height: 350px;
+	padding: 0;
 }
 
 .col-sm-3 {
@@ -150,8 +156,63 @@ h4 {
 	color: #333333;
 	font-family: 'Roboto', sans-serif;
 }
+.cardTitleBox {
+	padding-bottom: 10px;
+	border-bottom: 1px solid black;
+}
+.cardTitle { 
+	text-align: center;
+	margin: 0;
+}
+
+.fa-car {
+	padding: 7px 10px;
+}
+.output-origin {
+	margin: 0 10px;
+}
+.output-destination {
+	margin: 0 10px;
+}
+.route-details {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;*/
+	height: 35px;
+}
+.details-text {
+	text-align: center;
+	margin: 0;
+}
+.getBestRoute-text {
+	display: inline;
+	padding: 0 20px;
+	font-size: 18px;
+}
 .get-route-button {
 	width: 100px;
+	height: 60px;
+	margin: 10px 10px 0 10px;
+}
+.summary {
+	display: inline;
+	padding: 0 5px;
+}
+.timeDuration {
+	display: inline;
+	padding: 0 5px;
+}
+
+.or-text {
+	text-align: center;
+	margin: 0;
+}
+.departure-time {
+	margin-top: 10px;
+}
+.departuretime-description{
+	display: inline;
+	padding: 0 10px;
+	font-size: 16px;
 }
 .timeInput {
 	width: 60px;
@@ -160,21 +221,15 @@ h4 {
 	text-align: center;
 	border-radius: 3px;
 	font-size: 20px;
-	display: block;
-}
-.departure-time {
-	margin-top: 10px;
-}
-.departuretime-description {
-	font-size: 12px;
-	color: gray;
 }
 .save-departuretime-button {
 	width: 60px;
+	height: 30px;
+	margin-bottom: 8px;
 }
 .remove-button {
 	margin-top: 5px;
-	margin-left: 94%;
+	margin-left: 91%;
 	width: 30px;
 	height: 25px;
 	padding: 0 6.5px;
@@ -185,3 +240,4 @@ h4 {
 	height: 1px;
 	margin-right: 50px;
 }
+
