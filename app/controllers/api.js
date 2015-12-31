@@ -296,13 +296,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		//console.log("origin1", origin1);
 		//console.log("destinationB", destinationB);
 		//get the html element input for the autocomplete
-		var routeName = document.getElementById('route-name').value;
+		var originTitle = document.getElementById('origin-title').value;
+		var destinationTitle = document.getElementById('destination-title').value;
 		//firebase refrences to correct path
 		var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
 	
 		//pushing route info to firebase
 		routesRef.push({
-			"routeName": routeName,
+			"originTitle": originTitle,
+			"destinationTitle": destinationTitle,
 			"userId": $scope.userId,
 			"origin2": origin2,
 			"destinationA": destinationA,
@@ -310,7 +312,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 			"routeSummary": ""
 		});
 		//clearing input values after clicking "create route".
-		document.getElementById('route-name').value = "";
+		document.getElementById('origin-title').value = "";
+		document.getElementById('destination-title').value = "";
 		document.getElementById('to').value = "";
 		document.getElementById('from').value = "";	
 	};
