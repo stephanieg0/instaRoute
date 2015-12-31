@@ -1,5 +1,5 @@
-app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid", '$cookies', "departureTime", "getOrigin", "getDestination",
-	function ($scope, $window, $firebaseArray, idFactory, $cookies, timeFactory, originFactory, destinationFactory) { 
+app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid", '$cookies', "departureTime", "getOrigin", "getDestination", "getRouteTime", "getRouteSummary", "$q", 
+	function ($scope, $window, $firebaseArray, idFactory, $cookies, timeFactory, originFactory, destinationFactory, RouteTimeFactory, RouteSummaryFactory, $q) { 
 
 	//getting back the current user data from factory after log in.
 	$scope.userData = idFactory.getUid();
@@ -50,7 +50,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   	$scope.outputDiv = "";
   	//Id from firebase to be defined.
   	$scope.currentRouteID = "";
-
+  	//for time of departure.
+	var timeString = "";
+	var stringValue = "";
+	var routeTime = "";
+	var routeSummary = "";
 
 	//initializing the map when app loads(part of the script tag in html). 
 	//Deafult to Nashville
@@ -122,15 +126,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	};//end of placesTo function.
 
 	//This is the saved individual route origin and destination info.
-	//*** I need to wait until origin has gone through the geocode address and give coordinates, 
-	//and then pass the destination.
+	//*** origin and destination have to pass through geocode address to give coordinates. 
 	$scope.GetTime = function(origin, destination) {	
 		//need to assign both origin and destination to address variable and pass it to geocoder.
 		origin2 = origin;
+		
 		$scope.geocodeAddress(geocoder, map, origin);
 
 		destinationA = destination;
-
+		
 		$scope.geocodeAddress(geocoder, map, destination);
 		
 		//getting the Selected/current Route in firebase. If origin and destination match.
@@ -141,7 +145,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 				//specific route to determine time duration in distance Matrix output.
 				$scope.routes.currentRoute = $scope.routes[i];
 				//console.log("$scope.routes[i]", $scope.routes[i]);
-				console.log("$scope.routes.currentRoute", $scope.routes.currentRoute);		
+				//console.log("GetTime, $scope.routes.currentRoute", $scope.routes.currentRoute);		
 			}
 		}		
 	};//end of SavedRoute function.
@@ -149,7 +153,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//changin the marker position
 	$scope.geocodeAddress = function (geocoder, map, address) {		
-		//console.log("geocodeAddress ADDRESS", address);
+		console.log("geocodeAddress ADDRESS", address);
 		//pushing address key into the geocode from google to get coordinates and change the map.
 
 		geocoder.geocode( { 'address': address}, function(results, status) {
@@ -181,9 +185,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
       		}
 	      	//** if the markers array contains 2 objects, call GetMatrix function for distance and time.
       		if ($scope.markersArray.length === 2) {
-     			$scope.GetMatrix();
+      			//getting the summary on the map.
      			$scope.calculateAndDisplayRoute($scope.directionsService, $scope.directionsDisplay);
      			//console.log("geocode $scope.directionsService", $scope.directionsService);
+     			//getting the time of the route.
+     			$scope.GetMatrix();
 			}
     	});//end of geocoder.geocode()
 			
@@ -191,7 +197,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//** Route map display.
 	$scope.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
-		
+		console.log("origin2", origin2);
+		console.log("destinationA", destinationA);
 		$scope.directionsService = directionsService;
 		$scope.directionsDisplay = directionsDisplay;
 
@@ -211,8 +218,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 				// console.log("route summay", response.routes[i].summary);
 				
 				$scope.routes.currentRoute.routeSummary = response.routes[i].summary;
-				console.log("$scope.routes.currentRoute.routeSummary", $scope.routes.currentRoute.routeSummary);
-				
+				console.log("DirectionsService and Display, $scope.routes.currentRoute.routeSummary", $scope.routes.currentRoute.routeSummary);
+				RouteSummaryFactory.addRouteSummary($scope.routes.currentRoute.routeSummary);
 			}
 
 		$scope.$apply();
@@ -240,8 +247,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	    		//** new list/format of the origin and destination.
 	      		var originList = response.originAddresses;
 	      		var destinationList = response.destinationAddresses;
-	      		// console.log("originList", originList);
-	      		// console.log("destinationList", destinationList);
+	      		
 	    	}//end of else
 		
 			//Origin List
@@ -249,7 +255,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 			for (var i = 0; i < originList.length; i++) {
 				//Getting distance and duration for origin and destination
     			var results = response.rows[i].elements;
-    			//console.log("results", results);
+    			
     			geocoder.geocode({'address': originList[i]}, function(results, status) {
     			//geocoder.geocode needs to pass two arguments otherwise, it will error.
     			});    		
@@ -262,10 +268,16 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
       			});
       			//if $scope.routes.currentRoute.timeDuration is found and equals to empty string, then assgin duration.	
 
-	        	console.log("$scope.routes.currentRoute.timeDuration", $scope.routes.currentRoute.timeDuration);
-	        	$scope.routes.currentRoute.timeDuration = results[j].duration.text;		
-   				}//end of loop
+	        	//console.log("GetMatrix, $scope.routes.currentRoute.timeDuration", $scope.routes.currentRoute.timeDuration);
+	        	$scope.routes.currentRoute.timeDuration = results[j].duration.text;
+	        	//passing the timeDuration of the route into the factory.
+	        	RouteTimeFactory.addRouteTime($scope.routes.currentRoute.timeDuration);
+	        	
+   				}//end of loop			
 			}//end of loop
+		if (stringValue) {	
+			$scope.popUpWindow();				
+		}
 		//emptying markerArray.
 		for (var i = 0; i < $scope.markersArray.length; i++) {
    			$scope.markersArray[i].setMap(null);
@@ -331,9 +343,18 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		ref.unauth();
 	};		
 
+	$scope.popUpWindow = function() {
+		var routeTime = "";
+		var routeSummary = "";
+		routeTime = RouteTimeFactory.getRouteTime();		
+		
+		routeSummary = RouteSummaryFactory.getRouteSummary();
+		
+		if (routeTime !== "" && routeSummary !== ""){
+			alert("Time: " + routeTime + "Summary: " + routeSummary);
+		}
+	}	
 
-	var timeString = "";
-	var stringValue = "";
 	//Live time.
 	$scope.SetTime = function() {	
 		//Getting time
@@ -362,14 +383,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		destinationA = destinationFactory.getDestination();
 		//comparing stringValue to current time.
 		if (stringValue === timeString){
-			//alert("hello");
-			$scope.GetTime(origin2, destinationA);
+			$scope.GetTime(origin2, destinationA);			
+					
 		}
 
 	};
 
 	//Getting departure time from user input.
 	$scope.DepartureTime = function(index, origin, destination){
+		console.log("departureTime button");
 		//getting specific addresses to re-run.
 		origin2 = origin;
 		destinationA = destination;
@@ -388,7 +410,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		originFactory.addOrigin(origin2);
 		destinationFactory.addDestination(destinationA);	
 	};
-		
+	
+
+
 
 }]);//end of controller
 
