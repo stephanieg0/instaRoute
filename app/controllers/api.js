@@ -125,9 +125,33 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		}//end if.
 	};//end of placesTo function.
 
+	//Getting departure time from user input.
+	$scope.DepartureTime = function(index, origin, destination){
+		console.log("departureTime button");
+		//getting specific addresses to re-run.
+		origin2 = origin;
+		destinationA = destination;
+
+		//getting class name by index.
+		var el = document.getElementsByClassName(index);
+		//console.log("el", el);
+
+		//getting the specific value of current selected.
+		for (var i = 0; i < el.length; i++){
+			stringValue = el[i].value + ":0";
+			//console.log("stringValue", stringValue);
+		}
+		//sending stringValue to factory to store and call later.
+		timeFactory.addTime(stringValue);
+		originFactory.addOrigin(origin2);
+		destinationFactory.addDestination(destinationA);	
+	};
+
 	//This is the saved individual route origin and destination info.
 	//*** origin and destination have to pass through geocode address to give coordinates. 
-	$scope.GetTime = function(origin, destination) {	
+	$scope.GetTime = function(origin, destination, stringValue) {
+		$scope.popop = stringValue;
+		console.log("This is GetTime");	
 		//need to assign both origin and destination to address variable and pass it to geocoder.
 		origin2 = origin;
 		
@@ -153,7 +177,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//changin the marker position
 	$scope.geocodeAddress = function (geocoder, map, address) {		
-		console.log("geocodeAddress ADDRESS", address);
+		console.log("geocodeAddress", address);
 		//pushing address key into the geocode from google to get coordinates and change the map.
 
 		geocoder.geocode( { 'address': address}, function(results, status) {
@@ -186,22 +210,23 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	      	//** if the markers array contains 2 objects, call GetMatrix function for distance and time.
       		if ($scope.markersArray.length === 2) {
       			//getting the summary on the map.
+      			console.log("$scope.directionsService", $scope.directionsService);
+				
      			$scope.calculateAndDisplayRoute($scope.directionsService, $scope.directionsDisplay);
-     			//console.log("geocode $scope.directionsService", $scope.directionsService);
-     			//getting the time of the route.
-     			$scope.GetMatrix();
+       			
 			}
+			$scope.$apply();
     	});//end of geocoder.geocode()
 			
 	};//end of geocodeAddress.
 
 	//** Route map display.
 	$scope.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
-		console.log("origin2", origin2);
-		console.log("destinationA", destinationA);
+		console.log("This is calculateAndDisplayRoute");
+		
 		$scope.directionsService = directionsService;
 		$scope.directionsDisplay = directionsDisplay;
-
+		
 		$scope.directionsService.route({
 			origin: origin2,
 			destination: destinationA,
@@ -218,11 +243,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 				// console.log("route summay", response.routes[i].summary);
 				
 				$scope.routes.currentRoute.routeSummary = response.routes[i].summary;
-				console.log("DirectionsService and Display, $scope.routes.currentRoute.routeSummary", $scope.routes.currentRoute.routeSummary);
+				//passing results to factory.
 				RouteSummaryFactory.addRouteSummary($scope.routes.currentRoute.routeSummary);
 			}
-
-		$scope.$apply();
+			$scope.$apply();
+			$scope.GetMatrix();
 		});
 
 	};
@@ -231,7 +256,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		
 	//** Getting time and distance from geocodeAddress origin and destination format.
 	$scope.GetMatrix = function() {
-		//console.log("this is GetMatrix");
+		console.log("this is GetMatrix");
 		service.getDistanceMatrix({
 	    origins: [origin1, origin2],
 	    destinations: [destinationA, destinationB],
@@ -272,12 +297,17 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	        	$scope.routes.currentRoute.timeDuration = results[j].duration.text;
 	        	//passing the timeDuration of the route into the factory.
 	        	RouteTimeFactory.addRouteTime($scope.routes.currentRoute.timeDuration);
-	        	
+
    				}//end of loop			
 			}//end of loop
-		if (stringValue) {	
-			$scope.popUpWindow();				
-		}
+			//string value will be defined only if the departure button is clicked. 
+			console.log("stringValue", stringValue);
+			if (stringValue === "") {
+				//do nothing
+			} else {
+				//if the string value is true, alert with current results.
+				alert("Route Details: " + $scope.routes.currentRoute.routeSummary + " " + $scope.routes.currentRoute.timeDuration);
+			}
 		//emptying markerArray.
 		for (var i = 0; i < $scope.markersArray.length; i++) {
    			$scope.markersArray[i].setMap(null);
@@ -385,36 +415,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		//getting specific destination from factory.
 		destinationA = destinationFactory.getDestination();
 		//comparing stringValue to current time.
-		if (stringValue === timeString){
-			$scope.GetTime(origin2, destinationA);			
+		if (stringValue === timeString){	
+			$scope.GetTime(origin2, destinationA, stringValue);			
 					
-		}
+		}	
 
-	};
-
-	//Getting departure time from user input.
-	$scope.DepartureTime = function(index, origin, destination){
-		console.log("departureTime button");
-		//getting specific addresses to re-run.
-		origin2 = origin;
-		destinationA = destination;
-
-		//getting class name by index.
-		var el = document.getElementsByClassName(index);
-		//console.log("el", el);
-
-		//getting the specific value of current selected.
-		for (var i = 0; i < el.length; i++){
-			stringValue = el[i].value + ":0";
-			//console.log("stringValue", stringValue);
-		}
-		//sending stringValue to factory to store and call later.
-		timeFactory.addTime(stringValue);
-		originFactory.addOrigin(origin2);
-		destinationFactory.addDestination(destinationA);	
 	};
 	
-
 
 
 }]);//end of controller
