@@ -39,7 +39,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
     var ref = new Firebase("https://commutealert.firebaseio.com/users");
     //auth reference to firebaseAuth. For Home page to recognize the user id.
     var auth = $firebaseAuth(ref);
-    
+    console.log("auth", auth);
     ref.createUser({
       "email"   : email,
       "password": password
@@ -63,7 +63,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
           "name": userName
         }); 
         //sending current user data to factory to use later.
-        idFactory.addUid(authData);      
+        idFactory.addUid(userData);      
         }
         $scope.$apply();
       });      
