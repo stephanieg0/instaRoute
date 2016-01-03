@@ -18,7 +18,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         //setting data inside current user.
         ref.child(authData.uid).set(authData);
         //if the auth is successfull, relocate to the home url.
-        $location.url("/commuteAlert/home");
+        $location.url("/instaRoute/home");
         //displaying the map after loggin in.
         $rootScope.loggedin = false;
         //sending current user data to factory to use later.
@@ -47,11 +47,12 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
       if (error) {
         console.log("Error creating user:", error);
         $scope.SignUpErrorMessage = "User account already exists."
-
+        $scope.LogInErrorMessage = "";
       } else {
         $scope.SignUpErrorMessage = "";
+        $scope.LogInErrorMessage = "";
         //if the auth is successfull, relocate to the home url.
-        $location.url("/commuteAlert/home");
+        $location.url("/instaRoute/home");
         //display map.
         $rootScope.loggedin = false;
 
@@ -91,11 +92,12 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         console.log("Login Failed!", error);
       } else {
         //if the auth is successfull, relocate to the home url.
-        $location.url("/commuteAlert/home");
+        $location.url("/instaRoute/home");
         //display map.
         $rootScope.loggedin = false;
         //clear error message.
         $scope.LogInErrorMessage = "";
+        $scope.SignUpErrorMessage = "";
         console.log("Authenticated successfully with payload:", authData);
         //sending current user data to factory to use later.
         idFactory.addUid(authData);

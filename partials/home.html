@@ -16,8 +16,8 @@
 </div>
 
 <div class="individual-route-container col-sm-3" ng-repeat="route in routes | filter: {userId: userId}">
-	<div ng-model="routes">
-		<div id="{{route.userId}}">
+	<div ng-model="routes">		
+		<div id="{{route.userId}}">			
 			<button type="button" class="remove-button btn btn-deafult" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
 			<div class="cardTitleBox">
 				<h4 class="cardTitle">{{route.originTitle}} to {{route.destinationTitle}}</h4>
@@ -40,11 +40,9 @@
 			<div class="departure-time">
 				<p class="departuretime-description">Tell me later</p>
 				<input type="text" class="timeInput {{$index}}" placeholder="00:00" maxlength="5" ng-model="stringValue">
-				<button class="save-departuretime-button btn btn-info fa fa-clock-o" ng-click="DepartureTime($index, route.origin2, route.destinationA)"></button>
-			</div>
+				<button type="button" class="save-departuretime-button btn btn-info fa fa-clock-o" ng-click="DepartureTime($index, route.origin2, route.destinationA)"></button>
+			</div>			
 		</div>
 	</div>
 </div>
-
-
 

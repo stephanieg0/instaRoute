@@ -3,13 +3,13 @@ var app = angular.module("app", ['ngRoute', 'firebase', 'ngCookies']);
 //route provider contains paths to controllers to bind to Dom.
 app.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider
-		.when('/commuteAlert/login', {
+		.when('/instaRoute/login', {
 			templateUrl: "../partials/login.html",
 			controller: "loginController"
 			})
-		.when('/commuteAlert/home', {
+		.when('/instaRoute/home', {
 			templateUrl: "../partials/home.html",
 			controller: "apiController"
 			})
-		.otherwise('/commuteAlert/login');
+		.otherwise('/instaRoute/login');
 }]);//end of config
