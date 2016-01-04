@@ -61,7 +61,8 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         //set user and keys in firebase
         ref.set({
           "uid": userData.uid,
-          "name": userName
+          "facebook": {
+            "displayName": userName}
         }); 
         //sending current user data to factory to use later.
         idFactory.addUid(userData);      

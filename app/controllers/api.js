@@ -3,7 +3,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//getting back the current user data from factory after log in.
 	$scope.userData = idFactory.getUid();
-	$scope.userId = $scope.userData.uid;
+	$scope.userId = $scope.userData.uid;	
 
   	// Setting a cookie to remember user id upon page refresh.
   	//if user id is falsy(which it will be when page is refreshed), 
@@ -15,6 +15,16 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   		$cookies.put('userId', $scope.userId);
   	}
   	
+  	//Retrieving Name to Display it
+  	console.log("$scope.userId", $scope.userId);
+  	var ref = new Firebase("https://commutealert.firebaseio.com/users/" + $scope.userId);
+  	ref.on("value", function(snapshot) {
+	  	$scope.userName = snapshot.val().facebook.displayName;
+	  	console.log($scope.userName);
+	}, function (errorObject) {
+		console.log("The read failed: " + errorObject.code);
+	});
+
 	//Loading routes from firebase and defining scope route for html binding.
 	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
 	$scope.routes = $firebaseArray(ref);
