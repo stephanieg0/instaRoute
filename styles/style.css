@@ -113,10 +113,10 @@ h1 {
 /*Routes in home*/
 #user-name {
 	position: absolute;
-	top: -0.5px;
-	right: 10px;
+	top: 24px;
+	right: 70px;
 	z-index: 1px;
-	font-size: 18px;
+	font-size: 14px;
 }
 .route-container {
 	background-color: white;
