@@ -4,7 +4,7 @@
 		<!--bootstrap link-->
 		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
 		<!--bootstrap facebook link-->
-		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap-social/bootstrap-social.css">	
+		<link rel="stylesheet" type="text/css" href="./lib/bower_components/bootstrap-social/bootstrap-social.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 		<!--google font -->
 		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -15,7 +15,7 @@
         <title>instaRoute</title>
 	</head>
 	<body ng-app="app">
-		<section ng-controller="apiController" data-ng-init="SetTime()">		
+		<section ng-controller="apiController" data-ng-init="SetTime()">
 		<nav id="navigation" ng-class="{'nav-hidden': loggedin}"><!--Nav bar shows after loggedin function runs-->
 			<p id="nav-logo">instaRoute</p>
 			<a href="#/instaRoute/login" id="logout" ng-click="LogOut()">Log out</a>
@@ -23,9 +23,9 @@
 			<div class="container-fluid">
 
 				<div id="map-container" ng-class="{'mapHidden': loggedin}"><!--for resizing the map. loggedin is applied in the login.js to display the map after loggin in/look at css doc-->
-					<div id="map"></div><!--for api.js-->			
+					<div id="map"></div><!--for api.js-->
 				</div>
-				<div class="row" ng-class="{'row-block': loggedin}" ng-view></div>	
+				<div class="row" ng-class="{'row-block': loggedin}" ng-view></div>
 
 
 			</div>
@@ -38,10 +38,8 @@
 		<script src="lib/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
 		<!--key/library for google maps-->
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUWcwmKcS5LkAvrIX0jFqSnHF4k7iOVno&callback=initMap&libraries=places"></script>
 
-		<!--<script async defer src="https://maps.googleapis.com/maps/api/js?client=128831179995-2t73fvd8dt68vha4muomfsv8gvgalar0.apps.googleusercontent.com&v=3.22&callback=initMap&libraries=places"></script>
-	 	<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>-->
+
 
 		<!--Js files-->
 		<script src="app/app.js"></script>
@@ -53,8 +51,8 @@
 		<script src="app/factories/getRouteTime.js"></script>
 		<script src="app/factories/getRouteSummary.js"></script>
 		<script src="app/controllers/api.js"></script>
-        
-		
+
+
 	</body>
 
 </html>
