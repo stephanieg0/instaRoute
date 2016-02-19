@@ -1,5 +1,6 @@
 app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", "$location", "$rootScope", "getUid",
-	function ($scope, $firebaseArray, $firebaseAuth, $location, $rootScope, idFactory) { 
+	function ($scope, $firebaseArray, $firebaseAuth, $location, $rootScope, idFactory) {
+
 	//the map is hidden.
   $rootScope.loggedin = true;
   //error messages to display in the page.
@@ -11,7 +12,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
     //firebase reference to app url.
     var ref = new Firebase("https://commutealert.firebaseio.com/users");
     //auth reference to firebaseAuth.
-    var auth = $firebaseAuth(ref);  
+    var auth = $firebaseAuth(ref);
 
     auth.$authWithOAuthPopup("facebook").then(function (authData){
         console.log("logged in as:", authData.uid);
@@ -23,10 +24,10 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         $rootScope.loggedin = false;
         //sending current user data to factory to use later.
         idFactory.addUid(authData);
-        
+
         }).catch(function(error){
           console.log("authentication failed:", error);
-          }); 		
+          });
 
   };//end of facebookLogin
 
@@ -63,12 +64,12 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
           "uid": userData.uid,
           "facebook": {
             "displayName": userName}
-        }); 
+        });
         //sending current user data to factory to use later.
-        idFactory.addUid(userData);      
+        idFactory.addUid(userData);
         }
         $scope.$apply();
-      });      
+      });
   };//end SignUp
 
   //Sign in for existing user.
