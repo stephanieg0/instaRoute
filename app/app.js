@@ -12,4 +12,9 @@ app.config(['$routeProvider', function ($routeProvider) {
 			controller: "apiController"
 			})
 		.otherwise('/instaRoute/login');
-}]);//end of config
+}])
+	.run(['$http', function ($http) {
+		console.log("run module works");
+		//in progress
+
+}]);

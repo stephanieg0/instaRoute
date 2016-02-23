@@ -17,7 +17,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
   	//Retrieving Name to Display it
   	console.log("$scope.userId", $scope.userId);
-  	var ref = new Firebase("https://commutealert.firebaseio.com/users/" + $scope.userId);
+  	var ref = new Firebase("https://instaroute.firebaseio.com/users/" + $scope.userId);
   	ref.on("value", function(snapshot) {
 	  	$scope.userName = snapshot.val().facebook.displayName;
 	  	console.log($scope.userName);
@@ -26,7 +26,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	});
 
 	//Loading routes from firebase and defining scope route for html binding.
-	var ref = new Firebase("https://commutealert.firebaseio.com/routes");
+	var ref = new Firebase("https://instaroute.firebaseio.com/routes");
 	$scope.routes = $firebaseArray(ref);
 	//console.log("$scope.routes", $scope.routes);
 	$scope.routes.currentRoute = {};
@@ -341,7 +341,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		var originTitle = document.getElementById('origin-title').value;
 		var destinationTitle = document.getElementById('destination-title').value;
 		//firebase refrences to correct path
-		var routesRef = new Firebase("https://commutealert.firebaseio.com/routes");
+		var routesRef = new Firebase("https://instaroute.firebaseio.com/routes");
 
 		//pushing route info to firebase
 		routesRef.push({

@@ -10,7 +10,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
   //facebook log in/sign up.
 	$scope.facebookLogin = function() {
     //firebase reference to app url.
-    var ref = new Firebase("https://commutealert.firebaseio.com/users");
+    var ref = new Firebase("https://instaroute.firebaseio.com/users");
     //auth reference to firebaseAuth.
     var auth = $firebaseAuth(ref);
 
@@ -37,7 +37,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
     var userName = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
-    var ref = new Firebase("https://commutealert.firebaseio.com/users");
+    var ref = new Firebase("https://instaroute.firebaseio.com/users");
     //auth reference to firebaseAuth. For Home page to recognize the user id.
     var auth = $firebaseAuth(ref);
     console.log("auth", auth);
@@ -57,7 +57,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         //display map.
         $rootScope.loggedin = false;
 
-        var ref = new Firebase("https://commutealert.firebaseio.com/users/" + userData.uid);
+        var ref = new Firebase("https://instaroute.firebaseio.com/users/" + userData.uid);
         console.log("Successfully created user account with uid:", userData.uid);
         //set user and keys in firebase
         ref.set({
@@ -80,7 +80,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
     //firebase correct path.
-    var ref = new Firebase("https://commutealert.firebaseio.com/users");
+    var ref = new Firebase("https://instaroute.firebaseio.com/users");
     //auth reference to firebaseAuth. For Home page to recognize the user id.
     var auth = $firebaseAuth(ref);
     //Authentication with password.
