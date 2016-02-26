@@ -29,15 +29,14 @@ body{
 	padding: 10px 10px;
 }
 /* Map Section */
-/*html, body { height: 100%; margin: 0; padding: 0; }*/
 .mapHidden {
 	visibility: hidden;
 }
 
 #map-container {
-	margin: 10px 20px 20px 20px;
+	margin: 10px 0px 20px 0px;
 	height: 280px;
-	width: 1200px;
+/*	width: 1200px;*/
 	border: 10px solid white;
 	box-shadow: 0 2px 7px gray;
 }
@@ -47,7 +46,6 @@ body{
 input {
 	width: 500px;
 }
-
 
 
 /* Log in/Sign up Section */
@@ -78,6 +76,9 @@ h1 {
 #about-block {
 	height: 700px;
 	padding: 0;
+}
+#highway-photo {
+	width: 500px;
 }
 #login-block{
 	background-color: white;
@@ -120,8 +121,7 @@ h1 {
 }
 .route-container {
 	background-color: white;
-	width: 350px;
-	height: 350px;
+	min-height: 350px;
 }
 
 .address-inputs {
@@ -138,11 +138,11 @@ h1 {
 	margin: 0 0 20px 0;
 }
 #from {
-	width: 320px;
+/*	width: 320px;*/
 	margin: 5px 0;
 }
 #to {
-	width: 320px;
+/*	width: 320px;*/
 	margin: 5px 0;
 }
 #create-route-button {
@@ -154,13 +154,12 @@ h1 {
 
 .individual-route-container {
 	background-color: white;
-	width: 350px;
-	height: 350px;
+	min-height: 350px;
 	padding: 0;
 }
 
 .col-sm-3 {
-	margin: 15px 30px 15px 40px;
+	margin: 15px 15px 15px 15px;
 	box-shadow: 0 2px 7px gray;
 	border-radius: 5px;
 	color: #333333;
@@ -170,7 +169,7 @@ h1 {
 	padding-bottom: 10px;
 	border-bottom: 1px solid black;
 }
-.cardTitle { 
+.cardTitle {
 	text-align: center;
 	margin: 0;
 }
@@ -224,7 +223,7 @@ h1 {
 }
 .departuretime-description{
 	display: inline;
-	padding: 0 55px;
+	padding: 0 22px;
 	font-size: 16px;
 }
 .timeInput {
@@ -247,7 +246,7 @@ h1 {
 }
 .remove-button {
 	margin-top: 5px;
-	margin-left: 91%;
+	margin-left: 89%;
 	width: 30px;
 	height: 25px;
 	padding: 0 6.5px;
@@ -262,3 +261,27 @@ h1 {
 .alert-success {
 	position: fixed;
 }
+
+@media (min-width: 600px) {
+	.route-container {
+		width: 350px;
+	}
+	.individual-route-container  {
+		width: 350px;
+		height: 350px;
+	}
+	.departuretime-description {
+		padding: 0 55px;
+	}
+	.col-sm-3 {
+	margin: 15px 30px 15px 40px;
+	}
+	#map-container {
+	margin: 10px 20px 20px 20px;
+	}
+	#highway-photo {
+	width: 1170px;
+	}
+}
+
+
