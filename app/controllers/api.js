@@ -334,7 +334,6 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//Saving a route to firebase.
 	$scope.SaveRoute = function() {
-
 		//console.log("origin1", origin1);
 		//console.log("destinationB", destinationB);
 		//get the html element input for the autocomplete
@@ -343,21 +342,26 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		//firebase refrences to correct path
 		var routesRef = new Firebase("https://instaroute.firebaseio.com/routes");
 
-		//pushing route info to firebase
-		routesRef.push({
-			"originTitle": originTitle,
-			"destinationTitle": destinationTitle,
-			"userId": $scope.userId,
-			"origin2": origin2,
-			"destinationA": destinationA,
-			"timeDuration": "",
-			"routeSummary": ""
-		});
-		//clearing input values after clicking "create route".
-		document.getElementById('origin-title').value = "";
-		document.getElementById('destination-title').value = "";
-		document.getElementById('to').value = "";
-		document.getElementById('from').value = "";
+		//Not allowing the user to create an empty route.
+		if (!fromInput.value || !toInput.value) {
+			//do nothing
+		} else {
+			//pushing route info to firebase
+			routesRef.push({
+				"originTitle": originTitle,
+				"destinationTitle": destinationTitle,
+				"userId": $scope.userId,
+				"origin2": origin2,
+				"destinationA": destinationA,
+				"timeDuration": "",
+				"routeSummary": ""
+			});
+			//clearing input values after clicking "create route".
+			document.getElementById('origin-title').value = "";
+			document.getElementById('destination-title').value = "";
+			document.getElementById('to').value = "";
+			document.getElementById('from').value = "";
+		}
 	};
 
 
@@ -385,6 +389,8 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   		trafficLayer.setMap(map);
 
   		//user logged out.
+  	$cookies.put('userId', undefined);
+  	idFactory.addUid(null);
 		ref.unauth();
 	};
 

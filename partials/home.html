@@ -7,10 +7,10 @@
 		<input type="text" id="destination-title" class="form-control" placeholder="Destination Title">
 		<h4>Store places</h4>
 		<div>
-			<input type="text" id="from" class="controls form-control" placeholder="Origin" ng-model="inputFrom" ng-keypress="placesFrom($event)" required>
+			<input type="text" id="from" class="controls form-control" placeholder="Origin" ng-model="inputFrom" ng-keypress="placesFrom($event)">
 		</div>
 		<div>
-			<input type="text" id="to" class="form-control" placeholder="Destination" ng-keypress="placesTo($event)" required>
+			<input type="text" id="to" class="form-control" placeholder="Destination" ng-keypress="placesTo($event)">
 		</div>
 	</div>
 	<button id="create-route-button" class="btn btn-success" ng-click="SaveRoute()">Create Route</button>
