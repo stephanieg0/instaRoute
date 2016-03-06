@@ -7,10 +7,10 @@
 		<input type="text" id="destination-title" class="form-control" placeholder="Destination Title">
 		<h4>Store places</h4>
 		<div>
-			<input type="text" id="from" class="controls form-control" placeholder="Origin" ng-model="inputFrom" ng-keypress="placesFrom($event)">
+			<input type="text" id="from" class="controls form-control" placeholder="Origin" ng-model="inputFrom" ng-keypress="placesFrom($event)" required>
 		</div>
 		<div>
-			<input type="text" id="to" class="form-control" placeholder="Destination" ng-keypress="placesTo($event)">
+			<input type="text" id="to" class="form-control" placeholder="Destination" ng-keypress="placesTo($event)" required>
 		</div>
 	</div>
 	<button id="create-route-button" class="btn btn-success" ng-click="SaveRoute()">Create Route</button>
@@ -18,8 +18,8 @@
 </div>
 
 <div class="individual-route-container col-sm-3" ng-repeat="route in routes | filter: {userId: userId}">
-	<div ng-model="routes">		
-		<div id="{{route.userId}}">			
+	<div ng-model="routes">
+		<div id="{{route.userId}}">
 			<button type="button" class="remove-button btn btn-deafult" ng-click="DeleteRoute(route)"><span class="glyphicon glyphicon-remove"></span></button>
 			<div class="cardTitleBox">
 				<h4 class="cardTitle">{{route.originTitle}} to {{route.destinationTitle}}</h4>
@@ -35,7 +35,7 @@
 				<p class="details-text">DETAILS</p>
 			</div>
 			<div>
-				<div class="getBestRoute-text">Get best route now</div>	
+				<div class="getBestRoute-text">Get best route now</div>
 				<button type="button" class="get-route-button btn btn-success" ng-click="GetTime(route.origin2, route.destinationA)">Get Route</button>
 			</div>
 			<p class="or-text">------------------------------------------- or ------------------------------------------</p>
@@ -43,7 +43,7 @@
 				<p class="departuretime-description">Tell me later</p>
 				<input type="text" class="timeInput {{$index}}" placeholder="00:00" maxlength="5" ng-model="stringValue">
 				<button type="button" class="save-departuretime-button btn btn-info fa fa-clock-o" ng-click="DepartureTime($index, route.origin2, route.destinationA)"></button>
-			</div>			
+			</div>
 		</div>
 	</div>
 </div>
