@@ -19,7 +19,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         //setting data inside current user.
         ref.child(authData.uid).set(authData);
         //if the auth is successfull, relocate to the home url.
-        $location.url("/instaRoute/home");
+        $location.url("/home");
         //displaying the map after loggin in.
         $rootScope.loggedin = false;
         //sending current user data to factory to use later.
@@ -53,7 +53,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         $scope.SignUpErrorMessage = "";
         $scope.LogInErrorMessage = "";
         //if the auth is successfull, relocate to the home url.
-        $location.url("/instaRoute/home");
+        $location.url("/home");
         //display map.
         $rootScope.loggedin = false;
 
@@ -94,7 +94,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         console.log("Login Failed!", error);
       } else {
         //if the auth is successfull, relocate to the home url.
-        $location.url("/instaRoute/home");
+        $location.url("/home");
         //display map.
         $rootScope.loggedin = false;
         //clear error message.
