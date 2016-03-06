@@ -334,11 +334,13 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//Saving a route to firebase.
 	$scope.SaveRoute = function() {
-		//console.log("origin1", origin1);
-		//console.log("destinationB", destinationB);
+
 		//get the html element input for the autocomplete
 		var originTitle = document.getElementById('origin-title').value;
 		var destinationTitle = document.getElementById('destination-title').value;
+		origin2 = document.getElementById('from').value;
+		destinationA = document.getElementById('to').value;
+
 		//firebase refrences to correct path
 		var routesRef = new Firebase("https://instaroute.firebaseio.com/routes");
 
