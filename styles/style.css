@@ -262,6 +262,58 @@ h1 {
 	position: fixed;
 }
 
+@media (min-width: 600px) {
+	.route-container {
+		width: 350px;
+	}
+	.individual-route-container  {
+		width: 350px;
+		height: 350px;
+	}
+	.departuretime-description {
+		padding: 0 55px;
+	}
+	.col-sm-3 {
+		margin: 15px 30px 15px 40px;
+	}
+	#map-container {
+		margin: 10px 20px 20px 20px;
+	}
+	h1 {
+		font-family: 'Lobster', cursive;
+		font-size: 4em;
+		position: absolute;
+		color: white;
+		margin: 100px 100px;
+	}
+	h3 {
+		position: absolute;
+		color: white;
+		margin: 180px 100px;
+	}
+	#highway-photo {
+		max-width: 1170px;
+	}
+	#about-block {
+		height: 700px;
+		padding: 0;
+	}
+	#login-block{
+		background-color: white;
+		height: 700px;
+		margin: 0;
+		padding: 0;
+	}
+	.btn-facebook{
+	margin-top: 150px;
+	}
+	.form-signin {
+	  max-width: 330px;
+	  padding: 15px;
+	  margin: 0 auto;
+	}
+}
+
 /*@media (max-width: 520px) {
 	.col-xs-4 {
     width: 50%;
@@ -331,56 +383,4 @@ h1 {
 	}
 }
 */
-/*@media (min-width: 600px) {
-	.route-container {
-		width: 350px;
-	}
-	.individual-route-container  {
-		width: 350px;
-		height: 350px;
-	}
-	.departuretime-description {
-		padding: 0 55px;
-	}
-	.col-sm-3 {
-		margin: 15px 30px 15px 40px;
-	}
-	#map-container {
-		margin: 10px 20px 20px 20px;
-	}
-	h1 {
-		font-family: 'Lobster', cursive;
-		font-size: 4em;
-		position: absolute;
-		color: white;
-		margin: 100px 100px;
-	}
-	h3 {
-		position: absolute;
-		color: white;
-		margin: 180px 100px;
-	}
-	#highway-photo {
-		max-width: 1170px;
-	}
-	#about-block {
-		height: 700px;
-		padding: 0;
-	}
-	#login-block{
-		background-color: white;
-		height: 700px;
-		margin: 0;
-		padding: 0;
-	}
-	.btn-facebook{
-	margin-top: 150px;
-	}
-	.form-signin {
-	  max-width: 330px;
-	  padding: 15px;
-	  margin: 0 auto;
-	}
-}*/
-
 
