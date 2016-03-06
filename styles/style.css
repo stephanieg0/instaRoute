@@ -49,19 +49,25 @@ input {
 
 
 /* Log in/Sign up Section */
+#login-block{
+	background-color: white;
+	height: 700px;
+	margin: 0;
+	padding: 0;
+}
 .form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
 }
 h2 {
 	text-align: center;
 }
 h3 {
-	position: absolute;
-	color: white;
-	margin: 180px 100px;
-}
+		position: absolute;
+		color: white;
+		margin: 180px 100px;
+	}
 h1 {
 	font-family: 'Lobster', cursive;
 	font-size: 4em;
@@ -78,13 +84,7 @@ h1 {
 	padding: 0;
 }
 #highway-photo {
-	width: 500px;
-}
-#login-block{
-	background-color: white;
-	height: 700px;
-	margin: 0;
-	padding: 0;
+	max-width: 1170px;
 }
 .btn-facebook{
 	margin-top: 150px;
@@ -262,7 +262,76 @@ h1 {
 	position: fixed;
 }
 
-@media (min-width: 600px) {
+/*@media (max-width: 520px) {
+	.col-xs-4 {
+    width: 50%;
+  }
+	#login-block {
+	  background-color: white;
+	  height: 300px;
+	  margin: 0;
+	  padding: 0;
+	}
+	.form-signin {
+	  max-width: 330px;
+	  padding: 15px;
+	  margin: 0;
+	}
+	h2 {
+	  text-align: center;
+	}
+	h3 {
+	  position: absolute;
+	  color: white;
+	  margin: 150px 280px 0 35px;
+	  font-size: 20px;
+	}
+	h1 {
+	  font-family: 'Lobster', cursive;
+	  font-size: 4em;
+	  position: absolute;
+	  color: white;
+	  margin: 50px 50px;
+	}
+	.row-block {
+	  position: fixed;
+	  top: 0;
+	}
+	#about-block {
+	  height: 300px;
+	  padding: 0;
+	}
+	#highway-photo {
+	  max-width: 600px;
+	}
+	.btn-facebook{
+	  margin-top: 0;
+	}
+	#OR{
+	  text-align: center;
+	  color: gray;
+	  float: left;
+	  margin-left: 120px;
+	}
+	.input-signin {
+	  margin: 5px 0;
+	}
+	#sign-up {
+	  display: block;
+	  max-width: 330px;
+	  margin: 10px 0;
+	}
+	#log-in {
+	  max-width: 100px;
+	  margin: 10px 35%;
+	}
+	.alert-danger {
+	  max-width: 330px;
+	  height: 50px;
+	}
+}
+*/
+/*@media (min-width: 600px) {
 	.route-container {
 		width: 350px;
 	}
@@ -274,14 +343,44 @@ h1 {
 		padding: 0 55px;
 	}
 	.col-sm-3 {
-	margin: 15px 30px 15px 40px;
+		margin: 15px 30px 15px 40px;
 	}
 	#map-container {
-	margin: 10px 20px 20px 20px;
+		margin: 10px 20px 20px 20px;
+	}
+	h1 {
+		font-family: 'Lobster', cursive;
+		font-size: 4em;
+		position: absolute;
+		color: white;
+		margin: 100px 100px;
+	}
+	h3 {
+		position: absolute;
+		color: white;
+		margin: 180px 100px;
 	}
 	#highway-photo {
-	width: 1170px;
+		max-width: 1170px;
 	}
-}
+	#about-block {
+		height: 700px;
+		padding: 0;
+	}
+	#login-block{
+		background-color: white;
+		height: 700px;
+		margin: 0;
+		padding: 0;
+	}
+	.btn-facebook{
+	margin-top: 150px;
+	}
+	.form-signin {
+	  max-width: 330px;
+	  padding: 15px;
+	  margin: 0 auto;
+	}
+}*/
 
 
