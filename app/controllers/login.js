@@ -15,7 +15,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
     var auth = $firebaseAuth(ref);
 
     auth.$authWithOAuthPopup("facebook").then(function (authData){
-        console.log("logged in as:", authData.uid);
+        //console.log("logged in as:", authData.uid);
         //setting data inside current user.
         ref.child(authData.uid).set(authData);
         //if the auth is successfull, relocate to the home url.
@@ -40,7 +40,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
     var ref = new Firebase("https://instaroute.firebaseio.com/users");
     //auth reference to firebaseAuth. For Home page to recognize the user id.
     var auth = $firebaseAuth(ref);
-    console.log("auth", auth);
+    //console.log("auth", auth);
     ref.createUser({
       "email"   : email,
       "password": password
@@ -58,7 +58,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         $rootScope.loggedin = false;
 
         var ref = new Firebase("https://instaroute.firebaseio.com/users/" + userData.uid);
-        console.log("Successfully created user account with uid:", userData.uid);
+        //console.log("Successfully created user account with uid:", userData.uid);
         //set user and keys in firebase
         ref.set({
           "uid": userData.uid,
@@ -100,7 +100,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         //clear error message.
         $scope.LogInErrorMessage = "";
         $scope.SignUpErrorMessage = "";
-        console.log("Authenticated successfully with payload:", authData);
+        //console.log("Authenticated successfully with payload:", authData);
         //sending current user data to factory to use later.
         idFactory.addUid(authData);
       }

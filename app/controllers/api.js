@@ -16,7 +16,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   	}
 
   	//Retrieving Name to Display it
-  	console.log("$scope.userId", $scope.userId);
+  	//console.log("$scope.userId", $scope.userId);
   	var ref = new Firebase("https://instaroute.firebaseio.com/users/" + $scope.userId);
   	ref.on("value", function(snapshot) {
 	  	$scope.userName = snapshot.val().facebook.displayName;
