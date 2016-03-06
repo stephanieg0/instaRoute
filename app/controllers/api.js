@@ -391,7 +391,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   		trafficLayer.setMap(map);
 
   		//user logged out.
-  	$cookies.put('userId', undefined);
+  	$cookies.remove('userId');
   	idFactory.addUid(null);
 		ref.unauth();
 	};
