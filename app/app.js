@@ -1,7 +1,7 @@
 var app = angular.module("app", ['ngRoute', 'firebase', 'ngCookies']);
 
 //route provider contains paths to controllers to bind to Dom.
-app.config(['$routeProvider', function ($routeProvider) {
+app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 		$routeProvider
 		.when('/login', {
 			templateUrl: "../partials/login.html",
@@ -12,10 +12,5 @@ app.config(['$routeProvider', function ($routeProvider) {
 			controller: "apiController"
 			})
 		.otherwise('/login');
-}])
-	.run(['$http', function ($http) {
-		console.log("run module works");
-		//in progress
-
-
+		$locationProvider.html5Mode(true);
 }]);
