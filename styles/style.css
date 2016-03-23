@@ -314,73 +314,13 @@ h1 {
 	}
 }
 
-/*@media (max-width: 520px) {
-	.col-xs-4 {
-    width: 50%;
-  }
-	#login-block {
-	  background-color: white;
-	  height: 300px;
-	  margin: 0;
-	  padding: 0;
-	}
-	.form-signin {
-	  max-width: 330px;
-	  padding: 15px;
-	  margin: 0;
-	}
-	h2 {
-	  text-align: center;
-	}
-	h3 {
-	  position: absolute;
-	  color: white;
-	  margin: 150px 280px 0 35px;
-	  font-size: 20px;
-	}
-	h1 {
-	  font-family: 'Lobster', cursive;
-	  font-size: 4em;
-	  position: absolute;
-	  color: white;
-	  margin: 50px 50px;
-	}
-	.row-block {
-	  position: fixed;
-	  top: 0;
-	}
-	#about-block {
-	  height: 300px;
-	  padding: 0;
-	}
+@media (min-width: 1300px) {
 	#highway-photo {
-	  max-width: 600px;
+		max-width: 1690px;
 	}
-	.btn-facebook{
-	  margin-top: 0;
-	}
-	#OR{
-	  text-align: center;
-	  color: gray;
-	  float: left;
-	  margin-left: 120px;
-	}
-	.input-signin {
-	  margin: 5px 0;
-	}
-	#sign-up {
-	  display: block;
-	  max-width: 330px;
-	  margin: 10px 0;
-	}
-	#log-in {
-	  max-width: 100px;
-	  margin: 10px 35%;
-	}
-	.alert-danger {
-	  max-width: 330px;
-	  height: 50px;
+	#login-block{
+		height: 1000px;
 	}
 }
-*/
+
 
