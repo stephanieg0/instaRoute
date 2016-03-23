@@ -14,7 +14,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		//else, if user id "is" defined, then redefine the cookie to the current user id.
 		$cookies.put('userId', $scope.userId);
 	}
-
+	console.log('userid', $scope.userId);
   //Retrieving Name to Display it
   var ref = new Firebase("https://instaroute.firebaseio.com/users/" + $scope.userId);
   ref.on("value", function(snapshot) {
@@ -24,10 +24,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		console.log("The read failed: " + errorObject.code);
 	});
 
+  //Setting routes to empty if no user is found
+  if ($scope.userId === undefined) {
+  	$scope.routes = "";
+  } else {
 	//Loading routes from firebase and defining scope route for html binding.
 	var ref = new Firebase("https://instaroute.firebaseio.com/routes");
 	$scope.routes = $firebaseArray(ref);
-	//console.log("$scope.routes", $scope.routes);
+	}
+
 	$scope.routes.currentRoute = {};
 
 	//variables for the inputHTML.
