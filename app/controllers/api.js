@@ -102,6 +102,10 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		if (keyEvent.which === 13) {
 
 			origin2 = document.getElementById('from').value;
+			$scope.routes.currentRoute = {
+				"timeDuration": "",
+				"routeSummary": ""
+			}
 
 		}//end if.
 	};//end of placesFrom function.
@@ -147,7 +151,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//This is the saved individual route origin and destination info.
 	//*** origin and destination have to pass through geocode address to give coordinates.
-	$scope.GetTime = function(origin, destination, stringValue) {
+	$scope.GetRoute = function(origin, destination, stringValue) {
 		//need to assign both origin and destination to address variable and pass it to geocoder.
 		origin2 = origin;
 
@@ -421,7 +425,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		destinationA = destinationFactory.getDestination();
 		//comparing stringValue to current time.
 		if (stringValue === timeString){
-			$scope.GetTime(origin2, destinationA, stringValue);
+			$scope.GetRoute(origin2, destinationA, stringValue);
 
 		}
 
