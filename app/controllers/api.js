@@ -5,22 +5,21 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	$scope.userData = idFactory.getUid();
 	$scope.userId = $scope.userData.uid;
 
-  	// Setting a cookie to remember user id upon page refresh.
-  	//if user id is falsy(which it will be when page is refreshed),
-  	//then get the cookie, which has the id saved.
-  	if (!$scope.userId) {
-  		$scope.userId = $cookies.get('userId');
-  	} else {
-  		//else, if user id "is" defined, then redefine the cookie to the current user id.
-  		$cookies.put('userId', $scope.userId);
-  	}
+	// Setting a cookie to remember user id upon page refresh.
+	//if user id is falsy(which it will be when page is refreshed),
+	//then get the cookie, which has the id saved.
+	if (!$scope.userId) {
+		$scope.userId = $cookies.get('userId');
+	} else {
+		//else, if user id "is" defined, then redefine the cookie to the current user id.
+		$cookies.put('userId', $scope.userId);
+	}
 
-  	//Retrieving Name to Display it
-  	//console.log("$scope.userId", $scope.userId);
-  	var ref = new Firebase("https://instaroute.firebaseio.com/users/" + $scope.userId);
-  	ref.on("value", function(snapshot) {
-	  	$scope.userName = snapshot.val().facebook.displayName;
-	  	console.log($scope.userName);
+  //Retrieving Name to Display it
+  var ref = new Firebase("https://instaroute.firebaseio.com/users/" + $scope.userId);
+  ref.on("value", function(snapshot) {
+	  $scope.userName = snapshot.val().facebook.displayName;
+	  //console.log($scope.userName);
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
 	});
@@ -51,16 +50,16 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	//variables for google's distance matrix.
 	//my origin in address form and coordinates.
 	var origin1 = {lat: 55.93, lng: -3.118};
-  	var origin2 = 'Greenwich, England';
-  	//my destination in address form and coordinates.
-  	var destinationA = 'Stockholm, Sweden';
-  	var destinationB = {lat: 50.087, lng: 14.421};
+  var origin2 = 'Greenwich, England';
+  //my destination in address form and coordinates.
+  var destinationA = 'Stockholm, Sweden';
+  var destinationB = {lat: 50.087, lng: 14.421};
 
-  	//output for dom.
-  	$scope.outputDiv = "";
-  	//Id from firebase to be defined.
-  	$scope.currentRouteID = "";
-  	//for time of departure.
+  //output for dom.
+  $scope.outputDiv = "";
+  //Id from firebase to be defined.
+  $scope.currentRouteID = "";
+  //for time of departure.
 	var timeString = "";
 	var stringValue = "";
 	var routeTime = "";
@@ -71,22 +70,22 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	$window.initMap = function () {
 		//deafult for map
 		mapOptions =  {
-	    	center: myLatLng,
-	    	zoom: 10
-	  	}
+	    center: myLatLng,
+	    zoom: 10
+	  }
 	 	//creates a map inside the map div
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		//map instances for display.
 		$scope.directionsService = new google.maps.DirectionsService;
-  		$scope.directionsDisplay = new google.maps.DirectionsRenderer;
-  		$scope.directionsDisplay.setMap(map);
+  	$scope.directionsDisplay = new google.maps.DirectionsRenderer;
+  	$scope.directionsDisplay.setMap(map);
 		//geocoder instance for making address into coordinates.
 		geocoder = new google.maps.Geocoder();
 		//distance matrix instance to get time from origin to destination.
 		service = new google.maps.DistanceMatrixService;
 
 		var trafficLayer = new google.maps.TrafficLayer();
-  		trafficLayer.setMap(map);
+  	trafficLayer.setMap(map);
 	};
 
 	//setting autocomplete function for input field.
@@ -106,11 +105,11 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 			origin2 = document.getElementById('from').value;
 
 			//passing map object and geocoder instance to function.
-			$scope.geocodeAddress(geocoder, map, origin2);
-			$scope.routes.currentRoute = {
-				"timeDuration": "",
-				"routeSummary": ""
-			}
+			// $scope.geocodeAddress(geocoder, map, origin2);
+			// $scope.routes.currentRoute = {
+			// 	"timeDuration": "",
+			// 	"routeSummary": ""
+			// }
 
 		}//end if.
 	};//end of placesFrom function.
@@ -131,7 +130,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 			destinationA = document.getElementById('to').value;
 
 			//passing map object and geocoder instance to function.
-			$scope.geocodeAddress(geocoder, map, destinationA);
+			//$scope.geocodeAddress(geocoder, map, destinationA);
 		}//end if.
 	};//end of placesTo function.
 
@@ -188,7 +187,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 	//changin the marker position
 	$scope.geocodeAddress = function (geocoder, map, address, stringValue) {
-		console.log("geocodeAddress", address);
+		//console.log("geocodeAddress", address);
 		//pushing address key into the geocode from google to get coordinates and change the map.
 
 		geocoder.geocode( { 'address': address}, function(results, status) {
