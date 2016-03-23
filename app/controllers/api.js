@@ -88,9 +88,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
   	trafficLayer.setMap(map);
 	};
 
-	//setting autocomplete function for input field.
-	$scope.placesFrom = function (keyEvent) {
-		//get the html element input for the autocomplete
+	//Autocomplete for input field.
+	$scope.AutocompleteOrigin = function (keyEvent) {
+
 		var input = document.getElementById('from');
 		//to use globally
 		fromInput = input;
@@ -100,23 +100,15 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 		//Get complete address on enter key.
 		if (keyEvent.which === 13) {
-			//getting the input string as address for geocoder.
-			//and passing address to origin2 for distance matrix.
-			origin2 = document.getElementById('from').value;
 
-			//passing map object and geocoder instance to function.
-			// $scope.geocodeAddress(geocoder, map, origin2);
-			// $scope.routes.currentRoute = {
-			// 	"timeDuration": "",
-			// 	"routeSummary": ""
-			// }
+			origin2 = document.getElementById('from').value;
 
 		}//end if.
 	};//end of placesFrom function.
 
-	//setting autocomplete function for input field.
-	$scope.placesTo = function (keyEvent) {
-		//get the html element input
+	//Autocomplete for input field.
+	$scope.AutocompleteDestination = function (keyEvent) {
+
 		var input = document.getElementById('to');
 		//to use input globally
 		toInput = input;
@@ -125,12 +117,9 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 
 		//Get complete address on enter key.
 		if (keyEvent.which === 13) {
-			//getting the input string as address for geocoder.
-			//and passing address to destinationA for distance matrix.
+
 			destinationA = document.getElementById('to').value;
 
-			//passing map object and geocoder instance to function.
-			//$scope.geocodeAddress(geocoder, map, destinationA);
 		}//end if.
 	};//end of placesTo function.
 
@@ -159,9 +148,6 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	//This is the saved individual route origin and destination info.
 	//*** origin and destination have to pass through geocode address to give coordinates.
 	$scope.GetTime = function(origin, destination, stringValue) {
-		//$scope.popop = stringValue;
-		console.log("This is GetTime");
-		console.log("stringValue", stringValue);
 		//need to assign both origin and destination to address variable and pass it to geocoder.
 		origin2 = origin;
 
