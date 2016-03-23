@@ -339,7 +339,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		var routesRef = new Firebase("https://instaroute.firebaseio.com/routes");
 
 		//Not allowing the user to create an empty route.
-		if (!fromInput.value || !toInput.value) {
+		if (!origin2 || !destinationA) {
 			//do nothing
 		} else {
 			//pushing route info to firebase
