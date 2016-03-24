@@ -71,7 +71,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 	var routeSummary = "";
 
 	//initializing the map when app loads(part of the script tag in html).
-	//Deafult to Nashville
+	//Default to Nashville
 	$window.initMap = function () {
 		//deafult for map
 		mapOptions =  {
