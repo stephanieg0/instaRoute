@@ -402,7 +402,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		}
 	}
 
-	//Live time.
+	//Setting notification time
 	$scope.SetTime = function() {
 		//Getting time
 		//var formatReference = "7:54:0";
