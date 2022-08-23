@@ -430,7 +430,7 @@ app.controller("apiController", ["$scope", "$window", "$firebaseArray", "getUid"
 		destinationA = destinationFactory.getDestination();
 		//comparing stringValue to current time.
 		if (stringValue === timeString){
-			# this is a test comment
+			// this is a test comment
 			$scope.GetRoute(origin2, destinationA, stringValue);
 
 		}
