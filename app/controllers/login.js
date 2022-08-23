@@ -102,6 +102,7 @@ app.controller("loginController", ["$scope", "$firebaseArray", "$firebaseAuth", 
         $scope.SignUpErrorMessage = "";
         //console.log("Authenticated successfully with payload:", authData);
         //sending current user data to factory to use later.
+	// another test comment
         idFactory.addUid(authData);
       }
         $scope.$apply();
